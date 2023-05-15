@@ -1,0 +1,11 @@
+{
+  "parser": "vue-eslint-parser",
+  "root": true,
+  "env": {
+    "browser": true
+  },
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser"
+  },
+  "extends": ["@nuxtjs/eslint-config-typescript", "plugin:prettier/recommended"]
+}
