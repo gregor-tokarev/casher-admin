@@ -1,7 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
-  modules: ["@nuxtjs/stylelint-module", "@pinia/nuxt"],
+  modules: ["@nuxtjs/stylelint-module", "@pinia/nuxt", "nuxt-icons"],
+
   css: ["assets/styles/global.scss"],
   stylelint: {
     lintOnStart: false,

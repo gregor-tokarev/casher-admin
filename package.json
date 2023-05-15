@@ -42,6 +42,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.4.10"
+    "@pinia/nuxt": "^0.4.10",
+    "nuxt-icons": "^3.2.1"
   }
 }
