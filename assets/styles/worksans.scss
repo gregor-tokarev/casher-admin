@@ -1,0 +1,119 @@
+@use "typography" as *;
+
+/* work-sans-300 - latin_latin-ext */
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../fonts/work-sans-v18-latin_latin-ext-300.woff2') format('woff2'),
+  url('../fonts/work-sans-v18-latin_latin-ext-300.woff') format('woff');
+  font-display: swap;
+}
+
+/* work-sans-regular - latin_latin-ext */
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/work-sans-v18-latin_latin-ext-regular.woff2') format('woff2'),
+  url('../fonts/work-sans-v18-latin_latin-ext-regular.woff') format('woff');
+  font-display: swap;
+}
+
+/* work-sans-500 - latin_latin-ext */
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/work-sans-v18-latin_latin-ext-500.woff2') format('woff2'),
+  url('../fonts/work-sans-v18-latin_latin-ext-500.woff') format('woff');
+  font-display: swap;
+}
+
+/* work-sans-600 - latin_latin-ext */
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/work-sans-v18-latin_latin-ext-600.woff2') format('woff2'),
+  url('../fonts/work-sans-v18-latin_latin-ext-600.woff') format('woff');
+  font-display: swap;
+}
+
+/* work-sans-800 - latin_latin-ext */
+@font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: url('../fonts/work-sans-v18-latin_latin-ext-800.woff2') format('woff2'),
+  url('../fonts/work-sans-v18-latin_latin-ext-800.woff') format('woff');
+  font-display: swap;
+}
+
+.display-large {
+  @include display-large;
+}
+
+.display-medium {
+  @include display-medium;
+}
+
+.display-small {
+  @include display-small;
+}
+
+.headline-large {
+  @include headline-large;
+}
+
+.headline-medium {
+  @include headline-medium;
+}
+
+.headline-small {
+  @include headline-small;
+}
+
+.title-large {
+  @include title-large;
+}
+
+.title-medium {
+  @include title-medium;
+}
+
+.title-small {
+  @include title-small;
+}
+
+.label-large {
+  @include label-large;
+}
+
+.label-medium {
+  @include label-medium;
+}
+
+.label-small {
+  @include label-small;
+}
+
+.body-large {
+  @include body-large;
+}
+
+.body-medium {
+  @include body-medium;
+}
+
+.body-small {
+  @include body-small;
+}
+
+.overline {
+  @include overline;
+}
+
+.caption {
+  @include caption;
+}
