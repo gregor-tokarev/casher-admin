@@ -2,6 +2,7 @@
   <div>
     <!--    <AdminSidebar :nav-list="navList" :user="user"></AdminSidebar>-->
     <AdminCard is-you :admin="admin" is-admin></AdminCard>
+    <UIBugReport></UIBugReport>
   </div>
 </template>
 
@@ -25,6 +26,7 @@
 // };
 
 import AdminCard from "~/components/cards/AdminCard.vue";
+import UIBugReport from "~/components/controls/UIBugReport.vue";
 
 const admin = {
   email: "some@email.com",
