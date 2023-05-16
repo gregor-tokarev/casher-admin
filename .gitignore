@@ -7,6 +7,5 @@ node_modules
 .env
 dist
 .DS_Store
-.storybook
 .idea
 .stylelintcache

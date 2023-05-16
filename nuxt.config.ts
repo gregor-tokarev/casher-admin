@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     "nuxt-typed-router",
   ],
 
-  css: ["assets/styles/global.scss"],
+  css: ["assets/styles/global.scss", "reset-css/reset.css"],
   stylelint: {
     lintOnStart: false,
   },
