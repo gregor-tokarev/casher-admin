@@ -2,8 +2,8 @@
   <div>
     <!--    <AdminSidebar :nav-list="navList" :user="user"></AdminSidebar>-->
     <AdminCard is-you :admin="admin" is-admin></AdminCard>
-    <UIBugReport></UIBugReport>
-    <UIInput v-model="inputValue" placeholder="sdfdsf" size="big"> </UIInput>
+    <ControlsBugReport></ControlsBugReport>
+    <ControlsInput></ControlsInput>
   </div>
 </template>
 
@@ -27,8 +27,9 @@
 // };
 
 import AdminCard from "~/components/cards/AdminCard.vue";
-import UIBugReport from "~/components/controls/UIBugReport.vue";
-import UIInput from "~/components/controls/UIInput.vue";
+import UIBugReport from "~/components/controls/BugReport.vue";
+import UIInput from "~/components/controls/Input.vue";
+import BugReport from "~/components/controls/BugReport.vue";
 const inputValue = ref("sdfdsf");
 
 const admin = {
