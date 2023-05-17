@@ -3,6 +3,7 @@
     <!--    <AdminSidebar :nav-list="navList" :user="user"></AdminSidebar>-->
     <AdminCard is-you :admin="admin" is-admin></AdminCard>
     <UIBugReport></UIBugReport>
+    <UIInput v-model="inputValue" placeholder="sdfdsf" size="big"> </UIInput>
   </div>
 </template>
 
@@ -27,6 +28,8 @@
 
 import AdminCard from "~/components/cards/AdminCard.vue";
 import UIBugReport from "~/components/controls/UIBugReport.vue";
+import UIInput from "~/components/controls/UIInput.vue";
+const inputValue = ref("sdfdsf");
 
 const admin = {
   email: "some@email.com",
