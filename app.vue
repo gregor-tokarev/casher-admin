@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LayoutAuthHeader></LayoutAuthHeader>
     <OauthVk></OauthVk>
     <ControlsBugReport></ControlsBugReport>
   </div>
