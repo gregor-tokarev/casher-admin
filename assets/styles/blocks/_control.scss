@@ -1,0 +1,15 @@
+.control {
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__label {
+    color: var(--gray-400);
+  }
+
+  &__error {
+    color: var(--error);
+  }
+}

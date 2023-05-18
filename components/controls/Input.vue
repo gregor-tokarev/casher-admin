@@ -9,7 +9,10 @@ interface Props {
 
 interface Emits {
   (e: "update:modelValue", value: string): void;
+
   (e: "enter", value: void): void;
+
+  (e: "blur", value: InputEvent): void;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -26,6 +29,10 @@ const control = ref<HTMLInputElement>(null);
 
 function focus() {
   control.value && control.value.focus();
+}
+
+function onInput(_event: KeyboardEvent): void {
+  emits("update:modelValue", control.value.value);
 }
 </script>
 
@@ -44,8 +51,9 @@ function focus() {
       :value="modelValue"
       :placeholder="placeholder"
       class="input__control"
-      @input="emits('update:modelValue', $event.value)"
+      @input="onInput($event)"
       @keydown.enter="emits('enter', undefined)"
+      @blur="emits('blur', $event)"
     />
     <div class="input__icon input__right-icon">
       <slot name="right-icon"></slot>

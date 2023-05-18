@@ -76,7 +76,6 @@ function afterLeave(element) {
 .enter-active,
 .leave-active {
   overflow: hidden;
-  //transition: height 1s linear;
   transition-property: height;
   transition-duration: v-bind(transitionDuration);
   transition-timing-function: v-bind(transitionTimingFunction);
