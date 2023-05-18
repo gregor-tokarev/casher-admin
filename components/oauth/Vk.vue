@@ -174,7 +174,7 @@ function submit(): void {
   &__credentials {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px 30px;
+    gap: 15px 30px;
   }
 
   &__save {
