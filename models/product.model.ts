@@ -17,3 +17,9 @@ export class Product {
     category: Category;
     additionalFields: Record<string, any>;
 }
+
+export class AdminProductResponseDto extends Product {
+    revenue: number;
+    soldCount: number;
+    overallRating: number;
+}

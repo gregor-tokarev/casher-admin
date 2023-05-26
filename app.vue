@@ -1,15 +1,7 @@
 <template>
   <div>
-    <LayoutAuthHeader></LayoutAuthHeader>
-    <OauthVk></OauthVk>
-    <ControlsBugReport></ControlsBugReport>
-    <ControlsPagination
-      v-model="pValue"
-      :items-count="500"
-      :page-size="11"
-      :max-display-count="10"
-    ></ControlsPagination>
     <CardsProductReview :review="review"></CardsProductReview>
+    <CardsProduct :product="product"></CardsProduct>
   </div>
 </template>
 
@@ -17,12 +9,13 @@
 import { plainToInstance } from "class-transformer";
 import { Review } from "./models/review.model";
 import { User } from "~/models/user.model";
+import { AdminProductResponseDto } from "~/models/product.model";
+import { AppFile } from "~/models/file.model";
+import { Category } from "~/models/category.model";
 
-const pValue = ref(3);
-
-const review = ref<Review>(
+const review = $ref<Review>(
   plainToInstance(Review, {
-    id: 234,
+    id: "s3248fw9y8923hrnfjw",
     content: "dsfsdf",
     score: 4,
     reviewer: plainToInstance(User, {
@@ -30,6 +23,49 @@ const review = ref<Review>(
       surname: "sdfsdf",
       avatarUrl: "https://gravatar.com/avatar/7bcc5de11e4c5a0e092f2478e5f6144e?s=400&d=robohash&r=x",
     }),
+  })
+);
+
+const product = $ref<AdminProductResponseDto>(
+  plainToInstance(AdminProductResponseDto, {
+    id: "s3248fw9y8923hrnfjw",
+    createdAt: "",
+    updatedAt: "",
+    draft: false,
+    title: "sdflkajewoij",
+    description: "sfoijo3ijwf",
+    revenue: 3424234324,
+    overallRating: 3,
+    soldCount: 1234,
+    photos: [
+      plainToInstance(AppFile, {
+        originalname: "sdfuhwje",
+        etag: "soefhojewijf",
+        mimetype: "image/png",
+        path: "https://imgflip.com/s/meme/Drake-Hotline-Bling.jpg",
+      }),
+      plainToInstance(AppFile, {
+        originalname: "sdfuhwje",
+        etag: "soefhojewijf",
+        mimetype: "image/png",
+        path: "https://imgflip.com/s/meme/Drake-Hotline-Bling.jpg",
+      }),
+      plainToInstance(AppFile, {
+        originalname: "sdfuhwje",
+        etag: "soefhojewijf",
+        mimetype: "image/png",
+        path: "https://imgflip.com/s/meme/Drake-Hotline-Bling.jpg",
+      }),
+    ],
+    price: 23423,
+    priceWithDiscount: 234,
+    priceCurrency: "ruble" | "dollar",
+    category: plainToInstance(Category, {
+      id: "32rfd",
+      name: "some category",
+      level: 1,
+    }),
+    additionalFields: {},
   })
 );
 </script>
