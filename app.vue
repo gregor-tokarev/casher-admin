@@ -2,6 +2,7 @@
   <div>
     <CardsProductReview :review="review"></CardsProductReview>
     <CardsProduct :product="product"></CardsProduct>
+    <PaymentYookassa></PaymentYookassa>
   </div>
 </template>
 
