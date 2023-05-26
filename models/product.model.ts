@@ -18,6 +18,14 @@ export class Product {
     additionalFields: Record<string, any>;
 }
 
+export class CartProduct {
+    id: string;
+    count: number;
+    createdAt: string;
+    product: Product;
+    updatedAt: string;
+}
+
 export class AdminProductResponseDto extends Product {
     revenue: number;
     soldCount: number;
