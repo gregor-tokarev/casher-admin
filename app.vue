@@ -24,7 +24,7 @@ const review = ref<Review>(
   plainToInstance(Review, {
     id: 234,
     content: "dsfsdf",
-    score: 3,
+    score: 4,
     reviewer: plainToInstance(User, {
       name: "sfdfs",
       surname: "sdfsdf",

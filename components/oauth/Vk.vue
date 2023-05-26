@@ -28,18 +28,20 @@ const emits = defineEmits<Emits>();
 
 const toggle = ref(false);
 
-const v$ = useVuelidate(
-  {
-    clientID: { required, minLength: minLength(8) },
-    clientSecret: { required, minLength: minLength(71) },
-    serviceSecret: { required, minLength: minLength(20) },
-  },
-  state
+const v$ = $(
+  useVuelidate(
+    {
+      clientID: { required, minLength: minLength(8) },
+      clientSecret: { required, minLength: minLength(71) },
+      serviceSecret: { required, minLength: minLength(20) },
+    },
+    state
+  )
 );
 
 function submit(): void {
-  v$.value.$touch();
-  if (v$.value.$invalid) return;
+  v$.$touch();
+  if (v$.$invalid) return;
 
   emits("submit", state);
 }
@@ -51,11 +53,7 @@ function submit(): void {
       <ControlsSwitch v-model="toggle" class="trs"></ControlsSwitch>
       <img src="assets/img/vk.svg" class="card__icon" alt="vk" />
       <span class="title-large">VK</span>
-      <a
-        class="card__info caption"
-        target="_blank"
-        href="https://dev.vk.com/api/access-token/getting-started"
-      >
+      <a class="card__info caption" target="_blank" href="https://dev.vk.com/api/access-token/getting-started">
         Как получить ключи доступа для для vk?
       </a>
     </div>
@@ -66,10 +64,7 @@ function submit(): void {
             <fieldset class="card__fields control">
               <div class="control__head">
                 <div class="control__label label-medium">ClientID</div>
-                <div
-                  v-if="v$.clientID.required.$invalid && v$.clientID.$dirty"
-                  class="control__error label-medium"
-                >
+                <div v-if="v$.clientID.required.$invalid && v$.clientID.$dirty" class="control__error label-medium">
                   Обязательное поле
                 </div>
               </div>
@@ -90,9 +85,7 @@ function submit(): void {
               <div class="control__head">
                 <div class="control__label label-medium">ClientSecret</div>
                 <div
-                  v-if="
-                    v$.clientSecret.required.$invalid && v$.clientSecret.$dirty
-                  "
+                  v-if="v$.clientSecret.required.$invalid && v$.clientSecret.$dirty"
                   class="control__error label-medium"
                 >
                   Обязательное поле
@@ -115,10 +108,7 @@ function submit(): void {
               <div class="control__head">
                 <div class="control__label label-medium">ServiceSecret</div>
                 <div
-                  v-if="
-                    v$.serviceSecret.required.$invalid &&
-                    v$.serviceSecret.$dirty
-                  "
+                  v-if="v$.serviceSecret.required.$invalid && v$.serviceSecret.$dirty"
                   class="control__error label-medium"
                 >
                   Обязательное поле
@@ -137,9 +127,7 @@ function submit(): void {
               </ControlsInput>
             </fieldset>
           </div>
-          <ControlsButton class="card__save" @click="submit">
-            Сохранить опцию
-          </ControlsButton>
+          <ControlsButton class="card__save" @click="submit"> Сохранить опцию </ControlsButton>
         </div>
       </div>
     </AnimationCollapse>

@@ -25,23 +25,19 @@ withDefaults(defineProps<Props>(), {
 
 const emits = defineEmits<Emits>();
 
-const control = ref<HTMLInputElement>(null);
+const control = $ref<HTMLInputElement>(null);
 
 function focus() {
-  control.value && control.value.focus();
+  control && control.focus();
 }
 
 function onInput(_event: KeyboardEvent): void {
-  emits("update:modelValue", control.value.value);
+  emits("update:modelValue", control.value);
 }
 </script>
 
 <template>
-  <div
-    class="input"
-    :class="{ 'input--big': size === 'big', 'input--error': error }"
-    @click="focus()"
-  >
+  <div class="input" :class="{ 'input--big': size === 'big', 'input--error': error }" @click="focus()">
     <div class="input__icon input__left-icon">
       <slot name="left-icon"></slot>
     </div>
