@@ -11,15 +11,9 @@
       </ul>
     </nav>
     <div v-if="props.user" class="user sidebar__user">
-      <img
-        :src="props.user.avatar"
-        :alt="props.user.name + ' ' + props.user.lastname"
-        class="user__img"
-      />
+      <img :src="props.user.avatar" :alt="props.user.name + ' ' + props.user.lastname" class="user__img" />
       <div class="user__body">
-        <p class="user__name title-small">
-          {{ props.user.name }} {{ props.user.lastname }}
-        </p>
+        <p class="user__name title-small">{{ props.user.name }} {{ props.user.lastname }}</p>
         <p class="user__role caption">
           {{ props.user.role }}
         </p>

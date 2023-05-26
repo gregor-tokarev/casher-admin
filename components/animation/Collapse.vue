@@ -1,12 +1,7 @@
 <script setup lang="ts">
 interface Props {
   transitionDuration: string;
-  transitionTimingFunction:
-    | "linear"
-    | "ease"
-    | "ease-in"
-    | "ease-in-out"
-    | "ease-out";
+  transitionTimingFunction: "linear" | "ease" | "ease-in" | "ease-in-out" | "ease-out";
 }
 
 withDefaults(defineProps<Props>(), {

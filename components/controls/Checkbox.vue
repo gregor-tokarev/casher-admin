@@ -18,11 +18,7 @@ const emits = defineEmits<Emits>();
     :class="{ 'checkbox--checked': props.modelValue }"
     @click="emits('update:modelValue', !props.modelValue)"
   >
-    <nuxt-icon
-      v-if="props.modelValue"
-      class="checkbox__check"
-      name="check"
-    ></nuxt-icon>
+    <nuxt-icon v-if="props.modelValue" class="checkbox__check" name="check"></nuxt-icon>
   </div>
 </template>
 

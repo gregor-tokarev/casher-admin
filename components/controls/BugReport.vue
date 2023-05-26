@@ -1,11 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <a
-    class="bug-report"
-    href="https://github.com/gregor-tokarev/casher-admin/issues/new"
-    target="_blank"
-  >
+  <a class="bug-report" href="https://github.com/gregor-tokarev/casher-admin/issues/new" target="_blank">
     <nuxt-icon name="bug"></nuxt-icon>
   </a>
 </template>

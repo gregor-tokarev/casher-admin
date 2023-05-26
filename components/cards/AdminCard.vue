@@ -25,11 +25,7 @@ const props = defineProps<Props>();
         <span>{{ props.admin.email }}</span>
         <span v-if="props.isYou" class="admin__is-you">(Вы)</span>
       </div>
-      <ControlsButton
-        v-if="props.isAdmin && !props.isYou"
-        color="red"
-        @click="emits('delete', props.admin.id)"
-      >
+      <ControlsButton v-if="props.isAdmin && !props.isYou" color="red" @click="emits('delete', props.admin.id)">
         Удалить
       </ControlsButton>
     </div>
