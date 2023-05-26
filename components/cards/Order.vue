@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Order } from "~/models/order.model";
 import { useOrderStatusMap } from "~/composables/use-order-status-map";
-import { $computed } from "vue/macros";
 
 interface Props {
   order: Order;
