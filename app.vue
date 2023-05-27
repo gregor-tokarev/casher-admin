@@ -9,20 +9,40 @@
         <nuxt-icon name="key"></nuxt-icon>
       </template>
     </ControlsTextarea>
-    <nuxt-icon name="key" class="icon"></nuxt-icon>
+    <CardsUser :user="user"></CardsUser>
   </div>
 </template>
 
 <script setup lang="ts">
 import { plainToInstance } from "class-transformer";
 import { Review } from "./models/review.model";
-import { User } from "~/models/user.model";
+import { User, UserOauth, UserResponse } from "~/models/user.model";
 import { AdminProductResponseDto, CartProduct, Product } from "~/models/product.model";
 import { AppFile } from "~/models/file.model";
 import { Category } from "~/models/category.model";
 import { Order } from "~/models/order.model";
 
 const text = $ref("");
+
+const user = $ref<UserResponse>(
+  plainToInstance(UserResponse, {
+    id: "sd98wu4r",
+    avatarUrl: "https://gravatar.com/avatar/7bcc5de11e4c5a0e092f2478e5f6144e?s=400&d=robohash&r=x",
+    totalOrder: 234234,
+    name: "some",
+    surname: "some surname",
+    sex: "male",
+    createdAt: "2022-08-20",
+
+    oauth: plainToInstance(UserOauth, {
+      id: "s98whrsdf",
+      provider: "yandex",
+      token: "sodfhowijf",
+      providerId: "sdofij2983rj",
+      email: "some@email.ru",
+    }),
+  })
+);
 
 const review = $ref<Review>(
   plainToInstance(Review, {
