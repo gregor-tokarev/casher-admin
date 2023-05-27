@@ -76,8 +76,10 @@ function onInput(event: KeyboardEvent): void {
 
   &__icon {
     &:not(:empty) {
-      width: 24px;
-      height: 24px;
+      :deep(svg) {
+        width: 24px;
+        height: 24px;
+      }
     }
   }
 

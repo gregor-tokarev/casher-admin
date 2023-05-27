@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CardsProductReview :review="review"></CardsProductReview>
+    <!--    <CardsProductReview :review="review"></CardsProductReview>
     <CardsProduct :product="product"></CardsProduct>
     <PaymentYookassa></PaymentYookassa>
     <CardsOrder :order="order" even></CardsOrder>
@@ -9,7 +9,8 @@
         <nuxt-icon name="key"></nuxt-icon>
       </template>
     </ControlsTextarea>
-    <CardsUser :user="user"></CardsUser>
+    <CardsUser :user="user"></CardsUser>-->
+    <ControlsSelect v-model="text" :options="options" placeholder="some placeholder"></ControlsSelect>
   </div>
 </template>
 
@@ -23,6 +24,11 @@ import { Category } from "~/models/category.model";
 import { Order } from "~/models/order.model";
 
 const text = $ref("");
+const options = $ref([
+  { id: "234234", value: "s9oisdf", label: "some value 1" },
+  { id: "234233", value: "s9ois", label: "some value 2" },
+  { id: "234235", value: "sisdf", label: "some value 3" },
+]);
 
 const user = $ref<UserResponse>(
   plainToInstance(UserResponse, {
@@ -179,6 +185,10 @@ const order = $ref<Order>(
 </script>
 
 <style lang="scss">
+body {
+  height: 200vh;
+}
+
 .icon {
   width: 60px;
   height: 60px;
