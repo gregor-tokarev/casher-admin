@@ -11,19 +11,19 @@ const props = defineProps<Props>();
 
 const dayjs = useDayjs();
 
-const dateCreated = $computed(() => dayjs(props.order.createdAt).format("DD.MM.YYYY hh:mm"));
-const datePaid = $computed(() => dayjs(props.order.updatedAt).format("DD.MM.YYYY hh:mm"));
+const dateCreated = computed(() => dayjs(props.order.createdAt).format("DD.MM.YYYY hh:mm"));
+const datePaid = computed(() => dayjs(props.order.updatedAt).format("DD.MM.YYYY hh:mm"));
 
 const statusMap = useOrderStatusMap();
 
-const totalSum = $computed(() =>
+const totalSum = computed(() =>
   props.order.products.reduce((acc, p) => {
     acc += p.count * p.product.priceWithDiscount;
     return acc;
   }, 0)
 );
 
-const title = $computed(() =>
+const title = computed(() =>
   props.order.products.reduce((acc, p) => {
     acc += p.product.title;
     return acc + " ";

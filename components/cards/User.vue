@@ -8,7 +8,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const createdAt = $computed(() => dayjs(props.user.createdAt).format("DD.MM.YYYY"));
+const createdAt = computed(() => dayjs(props.user.createdAt).format("DD.MM.YYYY"));
 </script>
 
 <template>

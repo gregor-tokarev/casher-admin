@@ -14,26 +14,26 @@ interface Emits {
 
 const emits = defineEmits<Emits>();
 
-const pagesCount = $computed(() => Math.ceil(props.itemsCount / props.pageSize));
-const maxPages = $computed(() => props.maxDisplayCount ?? 10);
+const pagesCount = computed(() => Math.ceil(props.itemsCount / props.pageSize));
+const maxPages = computed(() => props.maxDisplayCount ?? 10);
 
-const pages = $computed(() => {
+const pages = computed(() => {
   const pages = [];
 
-  const halfOfDisplayedPages = Math.ceil(maxPages / 2);
+  const halfOfDisplayedPages = Math.ceil(maxPages.value / 2);
 
   const hasLeftSpace = props.modelValue - halfOfDisplayedPages > 0;
-  const hasRightSpace = props.modelValue + halfOfDisplayedPages < pagesCount;
+  const hasRightSpace = props.modelValue + halfOfDisplayedPages < pagesCount.value;
 
   let pagesStart: number;
   let pagesEnd: number;
 
   if (hasLeftSpace && !hasRightSpace) {
-    pagesStart = pagesCount - maxPages;
-    pagesEnd = pagesCount;
+    pagesStart = pagesCount.value - maxPages.value;
+    pagesEnd = pagesCount.value;
   } else if (!hasLeftSpace && hasRightSpace) {
     pagesStart = 0;
-    pagesEnd = maxPages;
+    pagesEnd = maxPages.value;
   } else {
     pagesStart = props.modelValue - halfOfDisplayedPages;
     pagesEnd = props.modelValue + halfOfDisplayedPages;
@@ -47,7 +47,7 @@ const pages = $computed(() => {
 });
 
 function updateModelValue(value: number): void {
-  if (value < 0 || value > pagesCount) return;
+  if (value < 0 || value > pagesCount.value) return;
   emits("update:modelValue", value);
 }
 </script>

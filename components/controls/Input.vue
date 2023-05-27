@@ -25,10 +25,11 @@ withDefaults(defineProps<Props>(), {
 
 const emits = defineEmits<Emits>();
 
-const control = $ref<HTMLInputElement>(null);
+const control = ref(null);
 
 function focus() {
-  control && control.focus();
+  const el = control as HTMLInputElement;
+  control && el.focus();
 }
 
 function onInput(_event: KeyboardEvent): void {

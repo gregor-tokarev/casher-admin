@@ -23,21 +23,21 @@ interface Emits {
 
 const emits = defineEmits<Emits>();
 
-let open = $ref(false);
+const open = ref(false);
 
-const currentOption = $computed(() => props.options.find((o) => o.value === props.modelValue));
+const currentOption = computed(() => props.options.find((o) => o.value === props.modelValue));
 
 function onSelect(optionId: string): void {
   const option = props.options.find((o) => o.id === optionId);
   emits("update:modelValue", option.value);
 
-  open = false;
+  open.value = false;
 }
 
 const root = ref(null);
 
 onClickOutside(root, () => {
-  open = false;
+  open.value = false;
 });
 </script>
 

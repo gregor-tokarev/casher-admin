@@ -23,14 +23,14 @@ import { AppFile } from "~/models/file.model";
 import { Category } from "~/models/category.model";
 import { Order } from "~/models/order.model";
 
-const text = $ref("");
-const options = $ref([
+const text = ref("");
+const options = ref([
   { id: "234234", value: "s9oisdf", label: "some value 1" },
   { id: "234233", value: "s9ois", label: "some value 2" },
   { id: "234235", value: "sisdf", label: "some value 3" },
 ]);
 
-const user = $ref<UserResponse>(
+const user = ref<UserResponse>(
   plainToInstance(UserResponse, {
     id: "sd98wu4r",
     avatarUrl: "https://gravatar.com/avatar/7bcc5de11e4c5a0e092f2478e5f6144e?s=400&d=robohash&r=x",
@@ -50,7 +50,7 @@ const user = $ref<UserResponse>(
   })
 );
 
-const review = $ref<Review>(
+const review = ref<Review>(
   plainToInstance(Review, {
     id: "s3248fw9y8923hrnfjw",
     content: "dsfsdf",
@@ -63,7 +63,7 @@ const review = $ref<Review>(
   })
 );
 
-const product = $ref<AdminProductResponseDto>(
+const product = ref<AdminProductResponseDto>(
   plainToInstance(AdminProductResponseDto, {
     id: "s3248fw9y8923hrnfjw",
     createdAt: "",
@@ -106,7 +106,7 @@ const product = $ref<AdminProductResponseDto>(
   })
 );
 
-const order = $ref<Order>(
+const order = ref<Order>(
   plainToInstance(Order, {
     id: "sdfdsf2342fdsf",
     status: "succeeded",

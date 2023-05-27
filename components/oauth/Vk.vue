@@ -28,20 +28,18 @@ const emits = defineEmits<Emits>();
 
 const toggle = ref(false);
 
-const v$ = $(
-  useVuelidate(
-    {
-      clientID: { required, minLength: minLength(8) },
-      clientSecret: { required, minLength: minLength(71) },
-      serviceSecret: { required, minLength: minLength(20) },
-    },
-    state
-  )
+const v$ = useVuelidate(
+  {
+    clientID: { required, minLength: minLength(8) },
+    clientSecret: { required, minLength: minLength(71) },
+    serviceSecret: { required, minLength: minLength(20) },
+  },
+  state
 );
 
 function submit(): void {
-  v$.$touch();
-  if (v$.$invalid) return;
+  v$.value.$touch();
+  if (v$.value.$invalid) return;
 
   emits("submit", state);
 }
