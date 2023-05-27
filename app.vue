@@ -4,6 +4,12 @@
     <CardsProduct :product="product"></CardsProduct>
     <PaymentYookassa></PaymentYookassa>
     <CardsOrder :order="order" even></CardsOrder>
+    <ControlsTextarea :model-value="text" error placeholder="=sadflajksdf">
+      <template #left-icon>
+        <nuxt-icon name="key"></nuxt-icon>
+      </template>
+    </ControlsTextarea>
+    <nuxt-icon name="key" class="icon"></nuxt-icon>
   </div>
 </template>
 
@@ -15,6 +21,8 @@ import { AdminProductResponseDto, CartProduct, Product } from "~/models/product.
 import { AppFile } from "~/models/file.model";
 import { Category } from "~/models/category.model";
 import { Order } from "~/models/order.model";
+
+const text = $ref("");
 
 const review = $ref<Review>(
   plainToInstance(Review, {
@@ -150,4 +158,9 @@ const order = $ref<Order>(
 );
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.icon {
+  width: 60px;
+  height: 60px;
+}
+</style>

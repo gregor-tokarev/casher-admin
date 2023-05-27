@@ -26,7 +26,7 @@ const totalSum = $computed(() =>
 const title = $computed(() =>
   props.order.products.reduce((acc, p) => {
     acc += p.product.title;
-    return acc;
+    return acc + " ";
   }, "")
 );
 </script>

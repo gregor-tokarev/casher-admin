@@ -68,6 +68,11 @@ function onInput(_event: KeyboardEvent): void {
   border-radius: 10px;
   border: 1px solid var(--gray-100);
 
+  &--error {
+    border-color: var(--error);
+    color: var(--error);
+  }
+
   &__control {
     width: 100%;
     background-color: transparent;
@@ -119,11 +124,6 @@ function onInput(_event: KeyboardEvent): void {
         margin-left: 10px;
       }
     }
-  }
-
-  &--error {
-    border-color: var(--error);
-    color: var(--error);
   }
 }
 </style>
