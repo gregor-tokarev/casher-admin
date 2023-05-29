@@ -3,7 +3,7 @@
     <CardsCategory :top-category="category" :child-categories="childCategories"></CardsCategory>
     <CardsCategory :top-category="category" :child-categories="childCategories"></CardsCategory>
     <CardsCategory :top-category="category" :child-categories="childCategories"></CardsCategory>
-    <ControlButton @click="openModal"></ControlButton>
+    <ControlButton @click="openModal"> open modal </ControlButton>
     <ModalDelete></ModalDelete>
   </div>
 </template>

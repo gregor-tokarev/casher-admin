@@ -5,9 +5,9 @@ export interface DeleteModalOptions {
     subtitle: string;
 }
 export function useDeleteModal(op: DeleteModalOptions) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const modalStore = useModalsStore();
 
-        modalStore.setDeleteModal(resolve, reject, op);
+        modalStore.setDeleteModal(resolve, op);
     });
 }

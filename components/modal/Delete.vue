@@ -2,23 +2,20 @@
 import { useModalsStore } from "~/stores/modals";
 
 const modalStore = useModalsStore();
-
-function onResolve(value: boolean): void {
-  modalStore.deleteModalResolver(value);
-  modalStore.resolve();
-}
 </script>
 
 <template>
   <teleport to="body">
     <div v-if="modalStore.deleteModalState" class="confirm">
-      <div class="confirm__overlay" @click="onResolve(false)"></div>
+      <div class="confirm__overlay" @click="modalStore.resolve(false)"></div>
       <div class="confirm__body">
         <h2 class="headline-large">{{ modalStore.deleteModalOptions.title }}</h2>
         <p class="confirm__subtitle body-medium">{{ modalStore.deleteModalOptions.subtitle }}</p>
         <div class="confirm__actions">
-          <ControlButton class="confirm__button" color="gray" big @click="onResolve(false)"> Отмена </ControlButton>
-          <ControlButton class="confirm__button" color="red" big @click="onResolve(true)">
+          <ControlButton class="confirm__button" color="gray" big @click="modalStore.resolve(false)">
+            Отмена
+          </ControlButton>
+          <ControlButton class="confirm__button" color="red" big @click="modalStore.resolve(true)">
             <nuxt-icon name="basket"></nuxt-icon>
             Удалить
           </ControlButton>
