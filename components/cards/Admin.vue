@@ -25,45 +25,45 @@ const props = defineProps<Props>();
         <span>{{ props.admin.email }}</span>
         <span v-if="props.isYou" class="admin__is-you">(Вы)</span>
       </div>
-      <ControlsButton v-if="props.isAdmin && !props.isYou" color="red" @click="emits('delete', props.admin.id)">
+      <ControlButton v-if="props.isAdmin && !props.isYou" color="red" @click="emits('delete', props.admin.id)">
         Удалить
-      </ControlsButton>
+      </ControlButton>
     </div>
     <div class="admin__permissions">
       <div class="admin__group">
         <div class="admin__group-title label-large">менеджеры</div>
         <div class="admin__permission-item label-large">
-          <ControlsSwitch :disabled="props.isAdmin"></ControlsSwitch>
+          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
           <span>добавлять менеджеров</span>
         </div>
         <div class="admin__permission-item label-large">
-          <ControlsSwitch :disabled="props.isAdmin"></ControlsSwitch>
-          <span>добавлять менеджеров</span>
-        </div>
-      </div>
-      <div class="admin__group">
-        <div class="admin__group-title label-large">менеджеры</div>
-        <div class="admin__permission-item label-large">
-          <ControlsSwitch :disabled="props.isAdmin"></ControlsSwitch>
-          <span>добавлять менеджеров</span>
-        </div>
-        <div class="admin__permission-item label-large">
-          <ControlsSwitch :disabled="props.isAdmin"></ControlsSwitch>
-          <span>добавлять менеджеров</span>
-        </div>
-        <div class="admin__permission-item label-large">
-          <ControlsSwitch :disabled="props.isAdmin"></ControlsSwitch>
+          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
           <span>добавлять менеджеров</span>
         </div>
       </div>
       <div class="admin__group">
         <div class="admin__group-title label-large">менеджеры</div>
         <div class="admin__permission-item label-large">
-          <ControlsSwitch :disabled="props.isAdmin"></ControlsSwitch>
+          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
           <span>добавлять менеджеров</span>
         </div>
         <div class="admin__permission-item label-large">
-          <ControlsSwitch :disabled="props.isAdmin"></ControlsSwitch>
+          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
+          <span>добавлять менеджеров</span>
+        </div>
+        <div class="admin__permission-item label-large">
+          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
+          <span>добавлять менеджеров</span>
+        </div>
+      </div>
+      <div class="admin__group">
+        <div class="admin__group-title label-large">менеджеры</div>
+        <div class="admin__permission-item label-large">
+          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
+          <span>добавлять менеджеров</span>
+        </div>
+        <div class="admin__permission-item label-large">
+          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
           <span>добавлять менеджеров</span>
         </div>
       </div>

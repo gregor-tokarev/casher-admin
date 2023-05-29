@@ -45,7 +45,7 @@ function submit(): void {
 <template>
   <div class="card">
     <div class="card__first-row">
-      <ControlsSwitch v-model="toggle" class="trs"></ControlsSwitch>
+      <ControlSwitch v-model="toggle" class="trs"></ControlSwitch>
       <img src="assets/img/yookassa.svg" class="card__icon" alt="yookassa" />
       <span class="title-large">YOOKASSA</span>
       <a
@@ -67,7 +67,7 @@ function submit(): void {
                   Обязательное поле
                 </div>
               </div>
-              <ControlsInput
+              <ControlInput
                 v-model="v$.clientID.$model"
                 name="clientID"
                 placeholder="51461222"
@@ -78,7 +78,7 @@ function submit(): void {
                 <template #left-icon>
                   <nuxt-icon name="key"></nuxt-icon>
                 </template>
-              </ControlsInput>
+              </ControlInput>
             </fieldset>
             <fieldset class="card__fields control">
               <div class="control__head">
@@ -90,7 +90,7 @@ function submit(): void {
                   Обязательное поле
                 </div>
               </div>
-              <ControlsInput
+              <ControlInput
                 v-model="v$.clientSecret.$model"
                 name="clientSecret"
                 placeholder="e622104de622104de622104dfbe5332c2bee622e622104d857973e9f5b3d5e7fd41e23f"
@@ -101,10 +101,10 @@ function submit(): void {
                 <template #left-icon>
                   <nuxt-icon name="key"></nuxt-icon>
                 </template>
-              </ControlsInput>
+              </ControlInput>
             </fieldset>
           </div>
-          <ControlsButton class="card__save" @click="submit"> Сохранить опцию </ControlsButton>
+          <ControlButton class="card__save" @click="submit"> Сохранить опцию </ControlButton>
         </div>
       </div>
     </AnimationCollapse>

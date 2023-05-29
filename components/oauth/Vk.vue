@@ -48,7 +48,7 @@ function submit(): void {
 <template>
   <div class="card">
     <div class="card__first-row">
-      <ControlsSwitch v-model="toggle" class="trs"></ControlsSwitch>
+      <ControlSwitch v-model="toggle" class="trs"></ControlSwitch>
       <img src="assets/img/vk.svg" class="card__icon" alt="vk" />
       <span class="title-large">VK</span>
       <a class="card__info caption" target="_blank" href="https://dev.vk.com/api/access-token/getting-started">
@@ -66,7 +66,7 @@ function submit(): void {
                   Обязательное поле
                 </div>
               </div>
-              <ControlsInput
+              <ControlInput
                 v-model="v$.clientID.$model"
                 name="clientID"
                 placeholder="51461222"
@@ -77,7 +77,7 @@ function submit(): void {
                 <template #left-icon>
                   <nuxt-icon name="key"></nuxt-icon>
                 </template>
-              </ControlsInput>
+              </ControlInput>
             </fieldset>
             <fieldset class="card__fields control">
               <div class="control__head">
@@ -89,7 +89,7 @@ function submit(): void {
                   Обязательное поле
                 </div>
               </div>
-              <ControlsInput
+              <ControlInput
                 v-model="v$.clientSecret.$model"
                 name="clientSecret"
                 placeholder="e622104de622104de622104dfbe5332c2bee622e622104d857973e9f5b3d5e7fd41e23f"
@@ -100,7 +100,7 @@ function submit(): void {
                 <template #left-icon>
                   <nuxt-icon name="key"></nuxt-icon>
                 </template>
-              </ControlsInput>
+              </ControlInput>
             </fieldset>
             <fieldset class="card__fields control">
               <div class="control__head">
@@ -112,7 +112,7 @@ function submit(): void {
                   Обязательное поле
                 </div>
               </div>
-              <ControlsInput
+              <ControlInput
                 v-model="v$.serviceSecret.$model"
                 placeholder="dEOlTOC74KAr30g2j7fB"
                 :error="v$.serviceSecret.$error"
@@ -122,10 +122,10 @@ function submit(): void {
                 <template #left-icon>
                   <nuxt-icon name="key"></nuxt-icon>
                 </template>
-              </ControlsInput>
+              </ControlInput>
             </fieldset>
           </div>
-          <ControlsButton class="card__save" @click="submit"> Сохранить опцию </ControlsButton>
+          <ControlButton class="card__save" @click="submit"> Сохранить опцию </ControlButton>
         </div>
       </div>
     </AnimationCollapse>
