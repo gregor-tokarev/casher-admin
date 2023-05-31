@@ -9,9 +9,7 @@ interface Props {
 
 interface Emits {
   (e: "update:modelValue", value: string): void;
-
   (e: "enter", value: void): void;
-
   (e: "blur", value: InputEvent): void;
 }
 
@@ -28,12 +26,12 @@ const emits = defineEmits<Emits>();
 const control = ref(null);
 
 function focus() {
-  const el = control as HTMLInputElement;
+  const el = control.value as HTMLInputElement;
   control && el.focus();
 }
 
 function onInput(_event: KeyboardEvent): void {
-  emits("update:modelValue", control.value);
+  emits("update:modelValue", control.value.value);
 }
 </script>
 

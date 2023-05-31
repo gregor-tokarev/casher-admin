@@ -38,6 +38,7 @@ const props = withDefaults(defineProps<Props>(), {
   cursor: pointer;
   color: var(--gray-400);
   transition: background-color 0.2s, color 0.2s;
+  user-select: none;
 
   @include typography.label-large;
 
