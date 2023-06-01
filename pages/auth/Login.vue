@@ -37,7 +37,6 @@ async function onSubmit() {
   try {
     await authStore.login(v$.value.email.$model, v$.value.password.$model);
   } catch (err) {
-    console.log(err);
     serverError.value = true;
   }
 }

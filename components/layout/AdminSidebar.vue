@@ -2,7 +2,7 @@
   <div class="sidebar">
     <nav v-if="props.navList" class="sidebar__nav nav">
       <ul v-for="(navItem, idx) in props.navList" :key="idx" class="nav__list">
-        <nuxt-link>
+        <nuxt-link :to="navItem.link" class="nav__item-link">
           <li class="nav__item title-large">
             <nuxt-icon :name="navItem.icon"></nuxt-icon>
             {{ navItem.name }}
@@ -36,7 +36,6 @@ const props = defineProps<Props>();
   display: flex;
   flex-direction: column;
   padding: 20px 0;
-  height: 100%;
   background-color: var(--surface);
   border-radius: 20px;
   border: 1px solid var(--gray-200);
@@ -55,7 +54,6 @@ const props = defineProps<Props>();
   &__item {
     position: relative;
     padding: 20px 30px;
-    color: var(--gray-400);
     transition: all 0.2s;
     cursor: pointer;
 
@@ -76,11 +74,15 @@ const props = defineProps<Props>();
       background-color: var(--gray-100);
       color: var(--black);
     }
+  }
 
-    &--active {
+  &__item-link {
+    color: var(--gray-400);
+
+    &.router-link-active {
       color: var(--accent);
 
-      &::after {
+      .nav__item::after {
         opacity: 1;
       }
     }
