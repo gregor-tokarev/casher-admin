@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAuthStore } from "~/stores/auth";
+
 const navList = ref([
   {
     name: "Продукты",
@@ -26,11 +28,15 @@ const navList = ref([
     icon: "list",
   },
 ]);
+
+const authStore = useAuthStore();
+
+await authStore.fetchCurrent();
 </script>
 
 <template>
   <div class="layout">
-    <LayoutAdminSidebar :nav-list="navList" class="layout__sidebar"></LayoutAdminSidebar>
+    <LayoutAdminSidebar :nav-list="navList" :user="authStore.currentUser" class="layout__sidebar"></LayoutAdminSidebar>
   </div>
 </template>
 

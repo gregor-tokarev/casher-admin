@@ -11,11 +11,11 @@
       </ul>
     </nav>
     <div v-if="props.user" class="user sidebar__user">
-      <img :src="props.user.avatar" :alt="props.user.name + ' ' + props.user.lastname" class="user__img" />
+      <!--      <img :src="props.user.avatar" :alt="props.user.name + ' ' + props.user.lastname" class="user__img" />-->
       <div class="user__body">
-        <p class="user__name title-small">{{ props.user.name }} {{ props.user.lastname }}</p>
+        <p class="user__name title-small">{{ props.user.email }}</p>
         <p class="user__role caption">
-          {{ props.user.role }}
+          {{ props.user.addedBy ? "Менеджер" : "Админ" }}
         </p>
       </div>
     </div>
@@ -23,9 +23,11 @@
 </template>
 
 <script setup lang="ts">
+import { AdminUser } from "~/models/admin-user.model";
+
 interface Props {
   navList?: { name: string; icon: string; link: string }[];
-  user: { name: string; lastname: string; role: string; avatar?: string };
+  user: AdminUser;
 }
 
 const props = defineProps<Props>();
