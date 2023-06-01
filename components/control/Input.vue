@@ -87,7 +87,7 @@ function onInput(_event: KeyboardEvent): void {
   }
 
   &__icon {
-    &:not(:empty) {
+    :deep(svg) {
       width: 16px;
       height: 16px;
     }
@@ -110,6 +110,13 @@ function onInput(_event: KeyboardEvent): void {
 
     .input__control {
       @include typography.headline-medium;
+    }
+
+    .input__icon {
+      :deep(svg) {
+        width: 24px;
+        height: 24px;
+      }
     }
 
     .input__left-icon {

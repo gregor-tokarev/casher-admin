@@ -1,15 +1,15 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="auth">
-    <LayoutAuthHeader class="auth__header"></LayoutAuthHeader>
+  <div class="auth-layout">
+    <LayoutAuthHeader class="auth-layout__header"></LayoutAuthHeader>
     <slot></slot>
     <ControlBugReport></ControlBugReport>
   </div>
 </template>
 
 <style scoped lang="scss">
-.auth {
+.auth-layout {
   height: 100vh;
   background-color: var(--background);
 }

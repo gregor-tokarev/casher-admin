@@ -26,23 +26,30 @@ const v$ = useVuelidate(
   formState
 );
 
-const authStorage = useAuthStore();
+const authStore = useAuthStore();
+
+const serverError = ref(false);
 
 async function onSubmit() {
   v$.value.$touch();
   if (v$.value.$error) return;
 
-  await authStorage.login(v$.value.email.$model, v$.value.password.$model);
+  try {
+    await authStore.login(v$.value.email.$model, v$.value.password.$model);
+  } catch (err) {
+    console.log(err);
+    serverError.value = true;
+  }
 }
 </script>
 
 <template>
-  <div class="login">
-    <h1 class="login__title headline-large">Вход</h1>
-    <p class="login__text body-medium">
+  <div class="auth">
+    <h1 class="auth__title headline-large">Вход</h1>
+    <p class="auth__text body-medium">
       Заполните email, который вы указали админу и пароль, который выставили, когда перешли по ссылке из письма
     </p>
-    <form class="login__form form">
+    <form class="auth__form form">
       <fieldset class="form__field field">
         <div class="field__head">
           <div class="field__name label-large">email</div>
@@ -80,70 +87,13 @@ async function onSubmit() {
           </template>
         </ControlInput>
       </fieldset>
+      <div v-if="serverError" class="form__server-error label-large">
+        Не получается войти, либо вас нет в системе, либо вы ввели неправильный пароль
+      </div>
       <ControlButton class="form__submit" big @click.prevent="onSubmit">Войти</ControlButton>
     </form>
-    <nuxt-link class="login__forget-password label-medium" to="/auth/forget-password">забыли пароль?</nuxt-link>
+    <nuxt-link class="auth__forget-password label-medium" to="/auth/forget-password">забыли пароль?</nuxt-link>
   </div>
 </template>
 
-<style scoped lang="scss">
-.login {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  padding: 30px 30px 50px 30px;
-  transform: translate(-50%, -50%);
-  border-radius: 20px;
-  background-color: var(--surface);
-  width: 610px;
-  border: 1px solid var(--gray-200);
-
-  &__title {
-    color: var(--gray-400);
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-  &__text {
-    color: var(--gray-300);
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  &__forget-password {
-    display: block;
-    text-decoration: none;
-    margin-top: 10px;
-    color: var(--accent);
-  }
-}
-
-.form {
-  &__field {
-    &:not(:last-child) {
-      margin-bottom: 10px;
-    }
-  }
-
-  &__submit {
-    width: 100%;
-    margin-top: 40px;
-  }
-}
-
-.field {
-  &__head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-  }
-
-  &__name {
-    color: var(--gray-300);
-  }
-
-  &__error {
-    color: var(--error);
-  }
-}
-</style>
+<style scoped lang="scss"></style>
