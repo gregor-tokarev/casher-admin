@@ -59,8 +59,10 @@ await useAsyncData("user", () => authStore.fetchCurrent());
   }
 
   &__body {
-    margin: 20px 50px;
-    max-width: calc(100vw - 300px - 100px - 20px);
+    padding: 20px 50px;
+    max-width: calc(100vw - 300px - 20px);
+    max-height: 100vh;
+    overflow-y: auto;
     flex-grow: 1;
   }
 }

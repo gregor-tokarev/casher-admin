@@ -26,8 +26,13 @@ export class CartProduct {
     updatedAt: string;
 }
 
-export class AdminProductResponseDto extends Product {
+export class AdminProductsResponse extends Product {
     revenue: number;
     soldCount: number;
     overallRating: number;
+}
+
+export class AdminProductResponseDto {
+    products: AdminProductsResponse[];
+    count: number;
 }

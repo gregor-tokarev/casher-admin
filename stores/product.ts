@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
+import { plainToInstance } from "class-transformer";
 import { AdminProductResponseDto, Product } from "~/models/product.model";
 
 export const useProductStore = defineStore("product", {
     state: () => ({
-        products: [] as AdminProductResponseDto[],
+        productsInfo: null as AdminProductResponseDto | null,
         currentProduct: null as Product | null,
     }),
     actions: {
@@ -11,15 +12,17 @@ export const useProductStore = defineStore("product", {
             const { $getAuthedApi } = useNuxtApp();
             const product = await $getAuthedApi().post<Product>("/product", {});
 
+            this.currentProduct = product.data;
+
             return product.data;
         },
-        async fetchProducts(q: string, skip: number, top: number): Promise<AdminProductResponseDto[]> {
+        async fetchProducts(q: string, skip: number, top: number): Promise<AdminProductResponseDto> {
             const { $getAuthedApi } = useNuxtApp();
-            const products = await $getAuthedApi().get<AdminProductResponseDto[]>("/product", {
+            const products = await $getAuthedApi().get<AdminProductResponseDto>("/product", {
                 params: { q, skip, top },
             });
 
-            this.products = products.data;
+            this.productsInfo = plainToInstance(AdminProductResponseDto, products.data);
 
             return products.data;
         },
@@ -27,7 +30,7 @@ export const useProductStore = defineStore("product", {
             const { $getAuthedApi } = useNuxtApp();
             const product = await $getAuthedApi().get<Product>(`/product/${id}`);
 
-            this.currentProduct = { ...product.data, ...this.currentProduct };
+            this.currentProduct = product.data;
 
             return product.data;
         },

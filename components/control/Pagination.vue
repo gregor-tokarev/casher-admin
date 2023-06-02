@@ -20,7 +20,15 @@ const maxPages = computed(() => props.maxDisplayCount ?? 10);
 const pages = computed(() => {
   const pages = [];
 
-  const halfOfDisplayedPages = Math.ceil(maxPages.value / 2);
+  if (pagesCount.value <= maxPages.value) {
+    for (let i = 0; i < pagesCount.value; i++) {
+      pages.push(i + 1);
+    }
+
+    return pages;
+  }
+
+  const halfOfDisplayedPages = Math.floor(maxPages.value / 2);
 
   const hasLeftSpace = props.modelValue - halfOfDisplayedPages > 0;
   const hasRightSpace = props.modelValue + halfOfDisplayedPages < pagesCount.value;
@@ -40,7 +48,7 @@ const pages = computed(() => {
   }
 
   for (let i = pagesStart; i < pagesEnd; i++) {
-    pages.push(i);
+    pages.push(i + 1);
   }
 
   return pages;
@@ -76,6 +84,7 @@ function updateModelValue(value: number): void {
 .pagination {
   display: flex;
   align-items: flex-end;
+  justify-content: center;
 
   &__page {
     display: flex;

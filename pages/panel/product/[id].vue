@@ -54,8 +54,13 @@ const categoriesSelectOptions = computed(() =>
 );
 
 const { open: openFileExplorer, onChange } = useFileDialog();
-onChange((files) => {
-  productStore.addPhotos(String(route.params.id), files);
+onChange(async (files) => {
+  updating.value = true;
+  try {
+    await productStore.addPhotos(String(route.params.id), files);
+  } finally {
+    updating.value = false;
+  }
 });
 
 async function onDeletePhoto(photoId: string): Promise<void> {
@@ -63,13 +68,12 @@ async function onDeletePhoto(photoId: string): Promise<void> {
 }
 
 const form = ref(null);
-const photosListWidth = computed(() => {
-  if (!form.value) return 0;
-
+const photosListWidth = ref("0px");
+onMounted(() => {
   const formEl = form.value as HTMLFormElement;
   const padding = window.getComputedStyle(formEl, null).getPropertyValue("padding-left");
 
-  return formEl.clientWidth + padding * 2;
+  photosListWidth.value = formEl.clientWidth - parseInt(padding) * 2 + "px";
 });
 </script>
 
@@ -111,7 +115,7 @@ const photosListWidth = computed(() => {
         </ControlInput>
       </fieldset>
       <fieldset class="field form__field photos">
-        <ul class="photos__list" :style="{ width: photosListWidth + 'px' }">
+        <ul class="photos__list" :style="{ width: photosListWidth }">
           <li class="photos__item photo photo-add" @click="openFileExplorer">
             <nuxt-icon class="photo-add__icon" name="plus"></nuxt-icon>
             <p class="photo-add__text title-medium">добавить новое изображение</p>
@@ -128,7 +132,7 @@ const photosListWidth = computed(() => {
         <div class="field__head">
           <div class="field__name label-large">Категория</div>
           <div class="field__error label-medium">
-            <template v-if="v$.price.$errors.length">{{ v$.price.$errors[0].$message }}</template>
+            <template v-if="v$.category.$errors.length">{{ v$.category.$errors[0].$message }}</template>
           </div>
         </div>
         <ControlSelect
@@ -216,6 +220,7 @@ const photosListWidth = computed(() => {
   &__list {
     display: flex;
     padding-top: 20px;
+    overflow-x: auto;
   }
 
   &__item {

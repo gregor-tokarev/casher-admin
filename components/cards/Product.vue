@@ -1,36 +1,43 @@
 <script setup lang="ts">
-import { AdminProductResponseDto } from "~/models/product.model";
+import { nanoid } from "nanoid";
+import { AdminProductsResponse } from "~/models/product.model";
 
 interface Props {
-  product: AdminProductResponseDto;
+  product: AdminProductsResponse;
 }
 
 defineProps<Props>();
+
+const runtimeConfig = useRuntimeConfig();
+const mediaUrl = computed(() => runtimeConfig.public.mediaUrl);
+const componentId = ref(nanoid(3));
 </script>
 
 <template>
   <div class="product">
     <div class="product__slider slider">
       <div class="slider__nav slider__prev">
-        <img src="/assets/img/slider-arrow.svg" alt="slider arrow" />
+        <img :id="'left-arrow-' + componentId" src="/assets/img/slider-arrow.svg" alt="slider arrow" />
       </div>
       <div class="slider__nav slider__next">
-        <img src="/assets/img/slider-arrow.svg" alt="slider arrow" />
+        <img :id="'right-arrow-' + componentId" src="/assets/img/slider-arrow.svg" alt="slider arrow" />
       </div>
       <Swiper
         :slides-per-view="1"
         :modules="[SwiperPagination, SwiperNavigation]"
-        :navigation="{ nextEl: '.slider__next', prevEl: '.slider__prev' }"
+        :navigation="{ nextEl: `#right-arrow-${componentId}`, prevEl: `#left-arrow-${componentId}` }"
         :pagination="{ clickable: true }"
       >
         <SwiperSlide v-for="file in product.photos" :key="file.etag">
-          <img class="product__img" :src="file.path" :alt="file.originalname" />
+          <img class="product__img" :src="mediaUrl + file.path" :alt="file.originalname" />
         </SwiperSlide>
       </Swiper>
     </div>
     <div class="product__wrapper">
       <div class="product__header">
-        <h3 class="product__title title-large">{{ product.title }}</h3>
+        <nuxt-link :to="{ name: 'panel-product-id', params: { id: product.id } }">
+          <h3 class="product__title title-large">{{ product.title }}</h3>
+        </nuxt-link>
         <div class="product__category label-medium">
           <nuxt-icon name="badge"></nuxt-icon>
           {{ product.category.name }}
@@ -55,7 +62,7 @@ defineProps<Props>();
           </li>
           <li class="product__stat stat body-medium">
             <span class="stat__label">Рейтинг:</span>
-            <ul class="rating">
+            <ul v-if="product.overallRating !== -1" class="rating">
               <li v-for="(_, idx) in Array(product.overallRating)" :key="idx">
                 <nuxt-icon name="star-filled"></nuxt-icon>
               </li>
@@ -63,6 +70,7 @@ defineProps<Props>();
                 <nuxt-icon name="star-outlined"></nuxt-icon>
               </li>
             </ul>
+            <div v-else class="no-rating">нет оценок</div>
           </li>
         </ul>
       </div>
@@ -80,6 +88,12 @@ defineProps<Props>();
 
   &__slider {
     max-width: 215px;
+  }
+
+  &__img {
+    width: 215px;
+    height: 215px;
+    object-fit: cover;
   }
 
   &__wrapper {
