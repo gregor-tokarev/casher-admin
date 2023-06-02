@@ -72,6 +72,7 @@ onClickOutside(root, () => {
 .select {
   position: relative;
   background-color: var(--gray-100);
+  border-radius: 10px;
 
   &__body {
     padding: 5px 10px;
@@ -81,6 +82,7 @@ onClickOutside(root, () => {
     position: absolute;
     right: 0;
     left: 0;
+    z-index: 100;
     transform: translateY(5px);
     background-color: var(--gray-100);
     border-radius: 10px;
@@ -97,14 +99,6 @@ onClickOutside(root, () => {
   &--big {
     padding: 10px 15px;
 
-    .body__text {
-      &:not(.body__text--placeholder) {
-        color: var(--error);
-      }
-
-      @include typography.headline-medium;
-    }
-
     .body__arrow {
       :deep(svg) {
         width: 38px;
@@ -115,6 +109,18 @@ onClickOutside(root, () => {
 
   &--error {
     border: 1px solid var(--error);
+
+    .body__text {
+      color: var(--error);
+    }
+  }
+
+  .body__text {
+    &:not(.body__text--placeholder) {
+      color: var(--gray-400);
+    }
+
+    @include typography.headline-medium;
   }
 
   &__arrow {

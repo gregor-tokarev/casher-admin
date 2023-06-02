@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import useVuelidate from "@vuelidate/core";
 import { helpers, minLength, required, sameAs } from "@vuelidate/validators";
+import { useRouter } from "#app";
 import { useAuthStore } from "~/stores/auth";
 
 definePageMeta({
@@ -38,6 +39,7 @@ const v$ = useVuelidate(
 const authStore = useAuthStore();
 
 const serverError = ref(false);
+const router = useRouter();
 
 async function onSubmit(): Promise<void> {
   v$.value.$touch();
@@ -45,6 +47,7 @@ async function onSubmit(): Promise<void> {
 
   try {
     await authStore.addfirst(v$.value.email.$model, v$.value.password.$model);
+    await router.push("/panel");
   } catch (err) {
     serverError.value = true;
   }
@@ -58,8 +61,8 @@ async function onSubmit(): Promise<void> {
       Создайте первого(root) менеджера в этом магазине, он будет иметь абсолютные права на магазин, сможет добавлять
       новых менеджеров и выдавать им права
     </p>
-    <form class="auth__form form">
-      <fieldset class="form__field field">
+    <form class="auth__form auth-form">
+      <fieldset class="form__field auth-field">
         <div class="field__head">
           <div class="field__name label-large">email</div>
           <div class="field__error label-small">
@@ -75,7 +78,7 @@ async function onSubmit(): Promise<void> {
           @blur="v$.email.$touch"
         ></ControlInput>
       </fieldset>
-      <fieldset class="form__field field">
+      <fieldset class="form__field auth-field">
         <div class="field__head">
           <div class="field__name label-large">Пароль</div>
           <div class="field__error label-small">
@@ -96,7 +99,7 @@ async function onSubmit(): Promise<void> {
           </template>
         </ControlInput>
       </fieldset>
-      <fieldset class="form__field field">
+      <fieldset class="form__field auth-field">
         <div class="field__head">
           <div class="field__name label-large">Повторите пароль</div>
           <div class="field__error label-small">

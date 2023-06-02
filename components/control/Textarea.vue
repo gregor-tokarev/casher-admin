@@ -9,23 +9,32 @@ withDefaults(defineProps<Props>(), { modelValue: "", error: false, placeholder: 
 
 interface Emits {
   (e: "update:modelValue", value: string): void;
-
   (e: "enter", value: void): void;
-
   (e: "blur", value: InputEvent): void;
 }
 
 const emits = defineEmits<Emits>();
+
+const control = ref(null);
+function updateHeight() {
+  const textarea = control.value as HTMLTextAreaElement;
+
+  nextTick(() => {
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  });
+}
+
+onMounted(() => {
+  updateHeight();
+});
 
 function onInput(event: KeyboardEvent): void {
   const textarea = event.currentTarget as HTMLTextAreaElement;
 
   emits("update:modelValue", textarea.value);
 
-  nextTick(() => {
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  });
+  updateHeight();
 }
 </script>
 
@@ -35,6 +44,7 @@ function onInput(event: KeyboardEvent): void {
       <slot name="left-icon"></slot>
     </div>
     <textarea
+      ref="control"
       class="textarea__control headline-medium"
       rows="1"
       :placeholder="placeholder"

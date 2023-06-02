@@ -19,7 +19,7 @@ const navList = ref([
   },
   {
     name: "Менеджеры",
-    link: "/panel/menegers",
+    link: "/panel/managers",
     icon: "key",
   },
   {
@@ -31,12 +31,16 @@ const navList = ref([
 
 const authStore = useAuthStore();
 
-await authStore.fetchCurrent();
+await useAsyncData("user", () => authStore.fetchCurrent());
 </script>
 
 <template>
   <div class="layout">
     <LayoutAdminSidebar :nav-list="navList" :user="authStore.currentUser" class="layout__sidebar"></LayoutAdminSidebar>
+    <div class="layout__body">
+      <slot></slot>
+    </div>
+    <ControlBugReport></ControlBugReport>
   </div>
 </template>
 
@@ -44,6 +48,7 @@ await authStore.fetchCurrent();
 .layout {
   display: flex;
   align-items: flex-start;
+  max-width: 100vw;
   height: 100vh;
   background-color: var(--background);
 
@@ -51,6 +56,12 @@ await authStore.fetchCurrent();
     height: calc(100% - 40px);
     min-width: 300px;
     margin: 20px;
+  }
+
+  &__body {
+    margin: 20px 50px;
+    max-width: calc(100vw - 300px - 100px - 20px);
+    flex-grow: 1;
   }
 }
 </style>

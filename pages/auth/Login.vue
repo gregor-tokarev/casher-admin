@@ -48,8 +48,8 @@ async function onSubmit() {
     <p class="auth__text body-medium">
       Заполните email, который вы указали админу и пароль, который выставили, когда перешли по ссылке из письма
     </p>
-    <form class="auth__form form">
-      <fieldset class="form__field field">
+    <form class="auth__form auth-form">
+      <fieldset class="form__field auth-field">
         <div class="field__head">
           <div class="field__name label-large">email</div>
           <div class="field__error label-small">
@@ -65,7 +65,7 @@ async function onSubmit() {
           @blur="v$.email.$touch"
         ></ControlInput>
       </fieldset>
-      <fieldset class="form__field field">
+      <fieldset class="form__field auth-field">
         <div class="field__head">
           <div class="field__name label-large">Пароль</div>
           <div class="field__error label-small">

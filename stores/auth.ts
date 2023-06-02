@@ -3,16 +3,14 @@ import { plainToInstance } from "class-transformer";
 import { Tokens } from "~/models/auth.model";
 import { AdminUser } from "~/models/admin-user.model";
 
-const api = useApi();
-const authedApi = useAuthedApi();
-
 export const useAuthStore = defineStore("auth", {
     state: () => ({
         currentUser: null as AdminUser | null,
     }),
     actions: {
         async addfirst(email: string, password: string): Promise<Tokens> {
-            const res = await api.post<Tokens>("/auth/add_first", {
+            const { $getApi } = useNuxtApp();
+            const res = await $getApi().post<Tokens>("/auth/add_first", {
                 email,
                 password,
             });
@@ -22,7 +20,8 @@ export const useAuthStore = defineStore("auth", {
             return plainToInstance(Tokens, res.data);
         },
         async login(email: string, password: string): Promise<Tokens> {
-            const res = await api.post<Tokens>("/auth/login", {
+            const { $getApi } = useNuxtApp();
+            const res = await $getApi().post<Tokens>("/auth/login", {
                 email,
                 password,
             });
@@ -36,11 +35,13 @@ export const useAuthStore = defineStore("auth", {
                 throw new Error("Access token is not exists");
             }
 
-            const res = await authedApi.get<AdminUser>("/auth/current");
+            const { $getAuthedApi } = useNuxtApp();
+            const res = await $getAuthedApi().get<AdminUser>("/auth/current");
             this.currentUser = res.data;
         },
         async refreshAuth(): Promise<Tokens> {
-            const res = await api.post<Tokens>("auth/refresh", { token: this.tokens.refreshToken });
+            const { $getApi } = useNuxtApp();
+            const res = await $getApi().post<Tokens>("auth/refresh", { token: this.tokens.refreshToken });
             this.setTokens(res.data);
 
             return res.data;
