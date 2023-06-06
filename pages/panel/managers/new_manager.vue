@@ -82,9 +82,9 @@ async function onSubmit(): Promise<void> {
             <div v-if="v$.email.$error" class="field__error caption">{{ v$.email.$errors[0].$message }}</div>
           </div>
           <ControlInput
+            v-model="v$.email.$model"
             size="big"
             :error="v$.email.$error"
-            v-model="v$.email.$model"
             placeholder="some@mail.ru"
             @blur="v$.email.$touch"
             @enter="onSubmit"
