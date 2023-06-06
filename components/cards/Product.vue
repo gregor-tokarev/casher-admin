@@ -38,7 +38,7 @@ const componentId = ref(nanoid(3));
         <nuxt-link :to="{ name: 'panel-product-id', params: { id: product.id } }">
           <h3 class="product__title title-large">{{ product.title }}</h3>
         </nuxt-link>
-        <div class="product__category label-medium">
+        <div v-if="product.category" class="product__category label-medium">
           <nuxt-icon name="badge"></nuxt-icon>
           {{ product.category.name }}
         </div>

@@ -16,10 +16,15 @@ export const useProductStore = defineStore("product", {
 
             return product.data;
         },
-        async fetchProducts(q: string, skip: number, top: number): Promise<AdminProductResponseDto> {
+        async fetchProducts(
+            q: string,
+            skip: number,
+            top: number,
+            categories?: string[]
+        ): Promise<AdminProductResponseDto> {
             const { $getAuthedApi } = useNuxtApp();
             const products = await $getAuthedApi().get<AdminProductResponseDto>("/product", {
-                params: { q, skip, top },
+                params: { q, skip, top, categories: categories ?? undefined },
             });
 
             this.productsInfo = plainToInstance(AdminProductResponseDto, products.data);

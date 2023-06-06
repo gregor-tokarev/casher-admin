@@ -1,4 +1,5 @@
 import axios from "axios";
+import { navigateTo } from "#app";
 import { useAuthStore } from "~/stores/auth";
 
 export default defineNuxtPlugin(({ $config }) => {
@@ -13,6 +14,7 @@ export default defineNuxtPlugin(({ $config }) => {
     });
 
     const authStore = useAuthStore();
+    // const router = useRouter();
 
     authedAx.interceptors.response.use(
         (res) => res,
@@ -21,10 +23,17 @@ export default defineNuxtPlugin(({ $config }) => {
 
             if (status !== 401) return;
 
-            return authStore.refreshAuth().then(() => {
-                error.config.headers.Authorization = `Bearer ${localStorage.getItem("accessToken")}`;
-                return axios.request(error.config);
-            });
+            return authStore
+                .refreshAuth()
+                .then(() => {
+                    error.config.headers.Authorization = `Bearer ${localStorage.getItem("accessToken")}`;
+                    return axios.request(error.config);
+                })
+                .catch((err) => {
+                    if (err.response.status === 401) {
+                        navigateTo("/auth/login");
+                    }
+                });
         }
     );
 

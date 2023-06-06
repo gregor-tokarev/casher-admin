@@ -1,37 +1,65 @@
 <script setup lang="ts">
-import { useAsyncData, useRouter } from "#app";
+import { useAsyncData, useRoute, useRouter } from "#app";
 import { useProductStore } from "~/stores/product";
+import { useCategoryStore } from "~/stores/category";
+import { computed } from "#imports";
 
+const route = useRoute();
 const router = useRouter();
 
 const productStore = useProductStore();
+const categoryStore = useCategoryStore();
+
 async function onCreateProduct(): Promise<void> {
   const product = await productStore.createProduct();
   await router.push({ name: "panel-product-id", params: { id: product.id } });
 }
 
 const pageSize = ref(5);
-await useAsyncData("products", () => productStore.fetchProducts("", 0, pageSize.value));
+await Promise.all([
+  useAsyncData("products", () =>
+    productStore.fetchProducts("", 0, pageSize.value, route.query?.categories?.split(";") ?? undefined)
+  ),
+  useAsyncData("categoryTrees", () => categoryStore.fetchCategoriesTree()),
+]);
 
-const currentPage = ref(1);
-const query = ref("");
-
-watch(
-  [query, currentPage],
-  async () => {
-    await useAsyncData("products-update", () =>
-      productStore.fetchProducts(query.value, (currentPage.value - 1) * pageSize.value, pageSize.value)
-    );
+const currentPage = computed({
+  get() {
+    return route.query.page ? parseInt(route.query.page as string) : 1;
   },
-  { immediate: false }
-);
+  set(value: number) {
+    router.replace({ query: { ...route.query, page: value } });
+  },
+});
+const query = computed({
+  get() {
+    return route.query.q;
+  },
+  set(value: string) {
+    router.replace({ query: { ...route.query, q: value } });
+  },
+});
 
+const filtersCount = ref(0);
+watch(
+  () => route.query,
+  async (query) => {
+    const categories = query.categories?.split(";");
+    if (categories?.length) filtersCount.value = 1;
+    else filtersCount.value = 0;
+
+    const q = query.q ?? "";
+    const currentPage = query.page;
+
+    await useAsyncData("products-udpate", () => productStore.fetchProducts(q, currentPage, pageSize.value, categories));
+  }
+);
 const filterOpen = ref(false);
 </script>
 
 <template>
-  <div class="page">
-    <ModalProductsFilter v-model="filterOpen"></ModalProductsFilter>
+  <div v-if="productStore.productsInfo" class="page">
+    <ModalProductsFilter v-if="filterOpen" @update:model-value="filterOpen = false"></ModalProductsFilter>
     <header class="page__header">
       <h1 class="page__title headline-large">Ваши продукты</h1>
       <ControlButton @click="onCreateProduct">
@@ -45,8 +73,13 @@ const filterOpen = ref(false);
           <nuxt-icon name="search"></nuxt-icon>
         </template>
       </ControlInput>
-      <div class="filter-open label-medium" @click="filterOpen = true">
-        Фильтры <nuxt-icon name="filter"></nuxt-icon>
+      <div
+        class="filter-open label-medium"
+        :class="{ 'filter-open--active': filtersCount > 0 }"
+        @click="filterOpen = true"
+      >
+        Фильтры <nuxt-icon v-if="filtersCount < 1" name="filter" class="filter-open__icon"></nuxt-icon>
+        <div v-else class="filter-open__count caption">{{ filtersCount }}</div>
       </div>
     </div>
     <ul v-if="productStore.productsInfo" class="page__list">
@@ -97,6 +130,31 @@ const filterOpen = ref(false);
   }
 }
 
+.filter-open {
+  display: flex;
+  align-items: center;
+
+  &--active {
+    color: var(--accent);
+  }
+
+  &__count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    color: var(--black);
+    background-color: var(--accent);
+    margin-left: 10px;
+  }
+
+  &__icon {
+    margin-left: 10px;
+  }
+}
+
 .filter {
   display: flex;
   align-items: center;
@@ -104,5 +162,6 @@ const filterOpen = ref(false);
   padding: 13px 20px;
   border-radius: 10px;
   background-color: var(--surface);
+  border: 1px solid var(--gray-200);
 }
 </style>

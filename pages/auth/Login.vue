@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import useVuelidate from "@vuelidate/core";
 import { email, helpers, required } from "@vuelidate/validators";
+import { useRouter } from "#app";
 import { definePageMeta } from "#imports";
 import { useAuthStore } from "~/stores/auth";
 
@@ -26,6 +27,7 @@ const v$ = useVuelidate(
   formState
 );
 
+const router = useRouter();
 const authStore = useAuthStore();
 
 const serverError = ref(false);
@@ -36,6 +38,7 @@ async function onSubmit() {
 
   try {
     await authStore.login(v$.value.email.$model, v$.value.password.$model);
+    await router.push("/panel/products");
   } catch (err) {
     serverError.value = true;
   }
@@ -49,7 +52,7 @@ async function onSubmit() {
       Заполните email, который вы указали админу и пароль, который выставили, когда перешли по ссылке из письма
     </p>
     <form class="auth__form auth-form">
-      <fieldset class="form__field auth-field">
+      <fieldset class="auth-form__field auth-field">
         <div class="field__head">
           <div class="field__name label-large">email</div>
           <div class="field__error label-small">
@@ -65,7 +68,7 @@ async function onSubmit() {
           @blur="v$.email.$touch"
         ></ControlInput>
       </fieldset>
-      <fieldset class="form__field auth-field">
+      <fieldset class="auth-form__field auth-field">
         <div class="field__head">
           <div class="field__name label-large">Пароль</div>
           <div class="field__error label-small">
@@ -86,10 +89,10 @@ async function onSubmit() {
           </template>
         </ControlInput>
       </fieldset>
-      <div v-if="serverError" class="form__server-error label-large">
+      <div v-if="serverError" class="auth-form__server-error label-large">
         Не получается войти, либо вас нет в системе, либо вы ввели неправильный пароль
       </div>
-      <ControlButton class="form__submit" big @click.prevent="onSubmit">Войти</ControlButton>
+      <ControlButton class="auth-form__submit" big @click.prevent="onSubmit">Войти</ControlButton>
     </form>
     <nuxt-link class="auth__forget-password label-medium" to="/auth/forget-password">забыли пароль?</nuxt-link>
   </div>
