@@ -10,11 +10,11 @@ await useAsyncData("categoryTrees", () => categoryStore.fetchCategoriesTree());
 const router = useRouter();
 async function onCreateCategory(): Promise<void> {
   const category = await categoryStore.createCategory();
-  await router.push({ name: "panel-Categories-category_id", params: { category_id: category.id } });
+  await router.push({ name: "panel-categories-category_id", params: { category_id: category.id } });
 }
 
 async function onEdit(categoryId: string): Promise<void> {
-  await router.push({ name: "panel-Categories-category_id", params: { category_id: categoryId } });
+  await router.push({ name: "panel-categories-category_id", params: { category_id: categoryId } });
 }
 
 async function onDelete(categoryId: string): Promise<void> {

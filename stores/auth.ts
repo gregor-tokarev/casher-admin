@@ -41,7 +41,7 @@ export const useAuthStore = defineStore("auth", {
         },
         async refreshAuth(): Promise<Tokens> {
             const { $getApi } = useNuxtApp();
-            const res = await $getApi().post<Tokens>("auth/refresh", { token: this.tokens.refreshToken });
+            const res = await $getApi().post<Tokens>("/auth/refresh", { token: this.tokens.refreshToken });
             this.setTokens(res.data);
 
             return res.data;

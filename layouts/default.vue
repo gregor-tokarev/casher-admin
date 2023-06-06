@@ -24,7 +24,7 @@ const navList = ref([
   },
   {
     name: "Категории",
-    link: "/panel/Categories",
+    link: "/panel/categories",
     icon: "list",
   },
 ]);

@@ -34,12 +34,12 @@ const selectOptions = computed(() =>
 
 async function onSubmit(): Promise<void> {
   await categoryStore.updateCategory(route.params.category_id, formState.name, formState.parentId);
-  await router.push({ name: "panel-Categories" });
+  await router.push({ name: "panel-categories" });
 }
 
 async function onClose(value): Promise<void> {
   if (!value) {
-    await router.push({ name: "panel-Categories" });
+    await router.push({ name: "panel-categories" });
   }
 }
 </script>

@@ -1,16 +1,14 @@
 <script setup lang="ts">
+import { AdminUser } from "~/models/admin-user.model";
+
 interface Props {
-  admin: {
-    id: number;
-    email: string;
-    permissions: string[];
-  };
+  admin: AdminUser;
   isAdmin: boolean;
   isYou: boolean;
 }
 
 interface Emits {
-  (e: "delete", id: number): void;
+  (e: "delete", id: string): void;
 }
 
 const emits = defineEmits<Emits>();

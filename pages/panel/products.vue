@@ -58,42 +58,46 @@ const filterOpen = ref(false);
 </script>
 
 <template>
-  <div v-if="productStore.productsInfo" class="page">
+  <div class="page">
     <ModalProductsFilter v-if="filterOpen" @update:model-value="filterOpen = false"></ModalProductsFilter>
     <header class="page__header">
       <h1 class="page__title headline-large">Ваши продукты</h1>
-      <ControlButton @click="onCreateProduct">
+      <ControlButton v-if="productStore.productsInfo" @click="onCreateProduct">
         <nuxt-icon name="plus"></nuxt-icon>
         Создать новый продукт
       </ControlButton>
     </header>
-    <div class="page__filter filter">
-      <ControlInput v-model="query" size="small" placeholder="Сапоги">
-        <template #left-icon>
-          <nuxt-icon name="search"></nuxt-icon>
-        </template>
-      </ControlInput>
-      <div
-        class="filter-open label-medium"
-        :class="{ 'filter-open--active': filtersCount > 0 }"
-        @click="filterOpen = true"
-      >
-        Фильтры <nuxt-icon v-if="filtersCount < 1" name="filter" class="filter-open__icon"></nuxt-icon>
-        <div v-else class="filter-open__count caption">{{ filtersCount }}</div>
+    <template v-if="productStore.productsInfo">
+      <div class="page__filter filter">
+        <ControlInput v-model="query" size="small" placeholder="Сапоги">
+          <template #left-icon>
+            <nuxt-icon name="search"></nuxt-icon>
+          </template>
+        </ControlInput>
+        <div
+          class="filter-open label-medium"
+          :class="{ 'filter-open--active': filtersCount > 0 }"
+          @click="filterOpen = true"
+        >
+          Фильтры
+          <nuxt-icon v-if="filtersCount < 1" name="filter" class="filter-open__icon"></nuxt-icon>
+          <div v-else class="filter-open__count caption">{{ filtersCount }}</div>
+        </div>
       </div>
-    </div>
-    <ul v-if="productStore.productsInfo" class="page__list">
-      <li v-for="p in productStore.productsInfo.products" :key="p.id" class="page__product">
-        <CardsProduct :product="p"></CardsProduct>
-      </li>
-    </ul>
-    <ControlPagination
-      v-model="currentPage"
-      class="page__pagination"
-      :max-display-count="3"
-      :items-count="productStore.productsInfo.count"
-      :page-size="pageSize"
-    ></ControlPagination>
+      <ul v-if="productStore.productsInfo" class="page__list">
+        <li v-for="p in productStore.productsInfo.products" :key="p.id" class="page__product">
+          <CardsProduct :product="p"></CardsProduct>
+        </li>
+      </ul>
+      <ControlPagination
+        v-model="currentPage"
+        class="page__pagination"
+        :max-display-count="3"
+        :items-count="productStore.productsInfo.count"
+        :page-size="pageSize"
+      ></ControlPagination>
+    </template>
+    <div v-else class="empty"></div>
   </div>
 </template>
 
