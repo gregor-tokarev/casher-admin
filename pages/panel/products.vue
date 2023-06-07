@@ -51,7 +51,9 @@ watch(
     const q = query.q ?? "";
     const currentPage = query.page;
 
-    await useAsyncData("products-udpate", () => productStore.fetchProducts(q, currentPage, pageSize.value, categories));
+    await useAsyncData("products-udpate", () =>
+      productStore.fetchProducts(q, currentPage - 1, pageSize.value, categories)
+    );
   }
 );
 const filterOpen = ref(false);

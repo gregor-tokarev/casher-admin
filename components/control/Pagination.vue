@@ -62,7 +62,7 @@ function updateModelValue(value: number): void {
 
 <template>
   <ul class="pagination">
-    <li class="pagination__item pagination__page" @click="updateModelValue(modelValue - 1)">
+    <li class="pagination__item pagination__page" @click="modelValue > 1 && updateModelValue(modelValue - 1)">
       <nuxt-icon name="arrow"></nuxt-icon>
     </li>
     <template v-for="(page, idx) in pages" :key="idx">
@@ -74,7 +74,10 @@ function updateModelValue(value: number): void {
         {{ page }}
       </li>
     </template>
-    <li class="pagination__item pagination__page pagination__item--rotated" @click="updateModelValue(modelValue + 1)">
+    <li
+      class="pagination__item pagination__page pagination__item--rotated"
+      @click="modelValue < pagesCount && updateModelValue(modelValue + 1)"
+    >
       <nuxt-icon name="arrow"></nuxt-icon>
     </li>
   </ul>
