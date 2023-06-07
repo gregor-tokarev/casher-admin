@@ -97,7 +97,13 @@ const filterOpen = ref(false);
         :page-size="pageSize"
       ></ControlPagination>
     </template>
-    <div v-else class="empty"></div>
+    <div v-else class="empty page__empty">
+      <p class="empty__text headline-small">У вас пока нет продуктов, но вы можете:</p>
+      <ControlButton @click="onCreateProduct">
+        <nuxt-icon name="plus"></nuxt-icon>
+        Создать новый продукт
+      </ControlButton>
+    </div>
   </div>
 </template>
 
@@ -131,6 +137,10 @@ const filterOpen = ref(false);
 
   &__pagination {
     margin: 55px auto 0;
+  }
+
+  &__empty {
+    margin-top: 100px;
   }
 }
 
@@ -167,5 +177,16 @@ const filterOpen = ref(false);
   border-radius: 10px;
   background-color: var(--surface);
   border: 1px solid var(--gray-200);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__text {
+    color: var(--gray-300);
+    margin-bottom: 20px;
+  }
 }
 </style>
