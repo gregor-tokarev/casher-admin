@@ -1,38 +1,53 @@
 <script setup lang="ts">
 import useVuelidate from "@vuelidate/core";
-import { minLength, required } from "@vuelidate/validators";
+import { helpers, minLength, required } from "@vuelidate/validators";
 
 interface Props {
-  clientID: string;
-  clientSecret: string;
-  serviceSecret: string;
+  enabled: boolean;
+  credentials: Record<string, string>;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  clientID: "",
-  clientSecret: "",
-  serviceSecret: "",
+  enabled: false,
+  credentials: () => ({
+    clientID: "",
+    clientSecret: "",
+    serviceSecret: "",
+  }),
 });
 
 const state = reactive({
-  clientID: props.clientID,
-  clientSecret: props.clientSecret,
-  serviceSecret: props.serviceSecret,
+  clientID: props.credentials.clientID,
+  clientSecret: props.credentials.clientSecret,
+  serviceSecret: props.credentials.serviceSecret,
 });
 
 interface Emits {
+  (e: "toggle", value: boolean): void;
   (e: "submit", value: typeof state): void;
 }
 
 const emits = defineEmits<Emits>();
 
-const toggle = ref(false);
+const toggle = ref(props.enabled);
+watch([toggle], ([value]) => {
+  emits("toggle", value);
+});
 
 const v$ = useVuelidate(
   {
-    clientID: { required, minLength: minLength(8) },
-    clientSecret: { required, minLength: minLength(71) },
-    serviceSecret: { required, minLength: minLength(20) },
+    clientID: {
+      required: helpers.withMessage("Обязательное поле", required),
+      minLength: helpers.withMessage((ctx) => `Минимальная длинна ${ctx.$params.min}`, minLength(8)),
+    },
+    clientSecret: {
+      required: helpers.withMessage("Обязательное поле", required),
+      minLength: helpers.withMessage((ctx) => `Минимальная длинна ${ctx.$params.min}`, minLength(20)),
+    },
+    serviceSecret: {
+      required: helpers.withMessage("Обязательное поле", required),
+      minLength: helpers.withMessage((ctx) => `Минимальная длинна ${ctx.$params.min}`, minLength(71)),
+    },
   },
   state
 );
@@ -49,7 +64,7 @@ function submit(): void {
   <div class="card">
     <div class="card__first-row">
       <ControlSwitch v-model="toggle" class="trs"></ControlSwitch>
-      <img src="assets/img/vk.svg" class="card__icon" alt="vk" />
+      <img src="/assets/img/vk.svg" class="card__icon" alt="vk" />
       <span class="title-large">VK</span>
       <a class="card__info caption" target="_blank" href="https://dev.vk.com/api/access-token/getting-started">
         Как получить ключи доступа для для vk?
@@ -62,8 +77,8 @@ function submit(): void {
             <fieldset class="card__fields control">
               <div class="control__head">
                 <div class="control__label label-medium">ClientID</div>
-                <div v-if="v$.clientID.required.$invalid && v$.clientID.$dirty" class="control__error label-medium">
-                  Обязательное поле
+                <div v-if="v$.clientID.$error" class="control__error label-medium">
+                  {{ v$.clientID.$errors[0].$message }}
                 </div>
               </div>
               <ControlInput
@@ -82,11 +97,8 @@ function submit(): void {
             <fieldset class="card__fields control">
               <div class="control__head">
                 <div class="control__label label-medium">ClientSecret</div>
-                <div
-                  v-if="v$.clientSecret.required.$invalid && v$.clientSecret.$dirty"
-                  class="control__error label-medium"
-                >
-                  Обязательное поле
+                <div v-if="v$.clientSecret.$error" class="control__error label-medium">
+                  {{ v$.clientSecret.$errors[0].$message }}
                 </div>
               </div>
               <ControlInput
@@ -105,11 +117,8 @@ function submit(): void {
             <fieldset class="card__fields control">
               <div class="control__head">
                 <div class="control__label label-medium">ServiceSecret</div>
-                <div
-                  v-if="v$.serviceSecret.required.$invalid && v$.serviceSecret.$dirty"
-                  class="control__error label-medium"
-                >
-                  Обязательное поле
+                <div v-if="v$.serviceSecret.$error" class="control__error label-medium">
+                  {{ v$.serviceSecret.$errors[0].$message }}
                 </div>
               </div>
               <ControlInput

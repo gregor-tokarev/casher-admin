@@ -17,6 +17,18 @@ export class User {
     oauth: UserOauth;
 }
 
+export class UserOauthProvider {
+    id: string;
+    name: string;
+    enabled: boolean;
+    credentials?: Record<string, string>;
+}
+
 export class UserResponse extends User {
     totalOrder: number;
+}
+
+export class UsersResponseDto {
+    users: UserResponse[];
+    count: number;
 }

@@ -14,7 +14,7 @@ const createdAt = computed(() => dayjs(props.user.createdAt).format("DD.MM.YYYY"
 <template>
   <div class="user">
     <div class="user__head">
-      <img :src="user.avatarUrl" :alt="user.name + ' ' + user.surname" class="user__img" />
+      <img v-if="user.avatarUrl" :src="user.avatarUrl" :alt="user.name + ' ' + user.surname" class="user__img" />
       <span class="user__name label-large">{{ user.name }} {{ user.surname }}</span>
     </div>
     <ul class="user__meta">

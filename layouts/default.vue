@@ -14,7 +14,7 @@ const navList = ref([
   },
   {
     name: "Пользователи",
-    link: "/panel/users",
+    link: "/panel/auth/users",
     icon: "user",
   },
   {
