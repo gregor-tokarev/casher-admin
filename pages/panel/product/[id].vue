@@ -15,7 +15,8 @@ const mediaUrl = computed(() => runtimeConfig.public.mediaUrl);
 
 await Promise.all([
   useAsyncData(String(route.params.id), () => productStore.fetchDetail(String(route.params.id))),
-  useAsyncData("allCategories", () => categoryStore.fetchAll()),
+  useAsyncData("allCategories", () => categoryStore.fetchCategoriesTree()),
+  useAsyncData(`reviews-${route.params.id}`, () => productStore.fetchReviews(String(route.params.id))),
 ]);
 
 const formState = reactive({
@@ -168,6 +169,12 @@ onMounted(() => {
         </template>
       </div>
     </form>
+    <div class="reviews product__reviews">
+      <h3 class="reviews__title title-medium">Оценки</h3>
+      <div class="reviews__list">
+        <CardsProductReview v-for="r in productStore.reviews" :key="r.id" :review="r"></CardsProductReview>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -188,6 +195,10 @@ onMounted(() => {
 
   &__loading {
     animation: spin 2s infinite linear;
+  }
+
+  &__reviews {
+    margin-top: 40px;
   }
 }
 
@@ -229,6 +240,19 @@ onMounted(() => {
     &:not(:last-child) {
       margin-right: 20px;
     }
+  }
+}
+
+.reviews {
+  &__title {
+    color: var(--gray-400);
+    margin-bottom: 10px;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
   }
 }
 

@@ -1,11 +1,13 @@
 import { defineStore } from "pinia";
 import { plainToInstance } from "class-transformer";
 import { AdminProductResponseDto, Product } from "~/models/product.model";
+import { Review } from "~/models/review.model";
 
 export const useProductStore = defineStore("product", {
     state: () => ({
         productsInfo: null as AdminProductResponseDto | null,
         currentProduct: null as Product | null,
+        reviews: [] as Review[],
     }),
     actions: {
         async createProduct(): Promise<Product> {
@@ -69,6 +71,14 @@ export const useProductStore = defineStore("product", {
             this.currentProduct.photos = newProduct.data.photos;
 
             return newProduct.data;
+        },
+        async fetchReviews(productId: string): Promise<Review[]> {
+            const { $getAuthedApi } = useNuxtApp();
+            const res = await $getAuthedApi().get<Review[]>(`/product/${productId}/reviews`);
+
+            this.reviews = res.data;
+
+            return res.data;
         },
     },
 });

@@ -34,6 +34,7 @@ defineProps<Props>();
 .card {
   padding: 20px;
   background-color: var(--surface);
+  border-radius: 20px;
 
   &__head {
     display: flex;
