@@ -17,6 +17,10 @@ async function onDelete(id: string): Promise<void> {
     await managerStore.revokeManager(id);
   }
 }
+
+async function onUpdatePermissions(id: string, permissions: string[]): Promise<void> {
+  await managerStore.changePermissions(id, permissions);
+}
 </script>
 
 <template>
@@ -39,6 +43,7 @@ async function onDelete(id: string): Promise<void> {
         :is-admin="!authStore.currentUser.addedBy"
         :admin="a"
         @delete="onDelete($event)"
+        @update:permissions="onUpdatePermissions($event[0], $event[1])"
       ></CardsAdmin>
     </div>
     <nuxt-page></nuxt-page>

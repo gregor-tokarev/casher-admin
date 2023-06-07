@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AdminUser } from "~/models/admin-user.model";
+import { AdminPermissions, AdminUser } from "~/models/admin-user.model";
 
 interface Props {
   admin: AdminUser;
@@ -9,11 +9,61 @@ interface Props {
 
 interface Emits {
   (e: "delete", id: string): void;
+  (e: "update:permissions", id: [string, string[]]): void;
 }
 
 const emits = defineEmits<Emits>();
 
 const props = defineProps<Props>();
+
+const groups = ref([
+  {
+    title: "Продукты",
+    permissions: [
+      { value: false, permissionName: AdminPermissions.CREATE_PRODUCTS, name: "Создавать продукты" },
+      { value: false, permissionName: AdminPermissions.DELETE_PRODUCTS, name: "Удалять продукты" },
+      { value: false, permissionName: AdminPermissions.UPDATE_PRODUCTS, name: "Редактировать продукты" },
+    ],
+  },
+  {
+    title: "менеджеры",
+    permissions: [
+      { value: false, permissionName: AdminPermissions.ADD_ADMIN, name: "добавлять  менеджеров" },
+      { value: false, permissionName: AdminPermissions.DELETE_ADMIN, name: "удалять менеджеров" },
+    ],
+  },
+  {
+    title: "Настройки",
+    permissions: [
+      { value: false, permissionName: AdminPermissions.PAYMENT_SETTINGS, name: "Изменять настройки платежей" },
+      { value: false, permissionName: AdminPermissions.AUTH_SETTINGS, name: "Изменять настройки авторизации" },
+    ],
+  },
+]);
+
+groups.value.forEach((g) => {
+  g.permissions.forEach((p) => {
+    if (props.admin.permissions.includes(p.permissionName)) {
+      p.value = true;
+    }
+  });
+});
+
+const permissions = computed(() => {
+  const permissions = [];
+
+  groups.value.forEach((g) => {
+    g.permissions.forEach((p) => {
+      if (p.value) permissions.push(p.permissionName);
+    });
+  });
+
+  return permissions;
+});
+
+watchEffect(() => {
+  emits("update:permissions", [props.admin.id, permissions.value]);
+});
 </script>
 
 <template>
@@ -28,41 +78,11 @@ const props = defineProps<Props>();
       </ControlButton>
     </div>
     <div class="admin__permissions">
-      <div class="admin__group">
-        <div class="admin__group-title label-large">менеджеры</div>
-        <div class="admin__permission-item label-large">
-          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
-          <span>добавлять менеджеров</span>
-        </div>
-        <div class="admin__permission-item label-large">
-          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
-          <span>добавлять менеджеров</span>
-        </div>
-      </div>
-      <div class="admin__group">
-        <div class="admin__group-title label-large">менеджеры</div>
-        <div class="admin__permission-item label-large">
-          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
-          <span>добавлять менеджеров</span>
-        </div>
-        <div class="admin__permission-item label-large">
-          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
-          <span>добавлять менеджеров</span>
-        </div>
-        <div class="admin__permission-item label-large">
-          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
-          <span>добавлять менеджеров</span>
-        </div>
-      </div>
-      <div class="admin__group">
-        <div class="admin__group-title label-large">менеджеры</div>
-        <div class="admin__permission-item label-large">
-          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
-          <span>добавлять менеджеров</span>
-        </div>
-        <div class="admin__permission-item label-large">
-          <ControlSwitch :disabled="props.isAdmin"></ControlSwitch>
-          <span>добавлять менеджеров</span>
+      <div v-for="(g, idx) in groups" :key="idx" class="admin__group">
+        <div class="admin__group-title label-large">{{ g.title }}</div>
+        <div v-for="(p, jdx) in g.permissions" :key="jdx" class="admin__permission-item label-large">
+          <ControlSwitch v-model="p.value" :disabled="!props.isAdmin || props.isYou"></ControlSwitch>
+          <span>{{ p.name }}</span>
         </div>
       </div>
     </div>

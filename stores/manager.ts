@@ -33,5 +33,13 @@ export const useManagerStore = defineStore("manager", {
             const managerIdx = this.managers.findIndex((m) => m.id === managerId);
             this.managers.splice(managerIdx, 1);
         },
+        async changePermissions(managerId: string, permissions: string[]): Promise<AdminUser> {
+            const { $getAuthedApi } = useNuxtApp();
+            const res = await $getAuthedApi().patch<AdminUser>(`/auth/${managerId}/change_permissions`, {
+                permissions,
+            });
+
+            return res.data;
+        },
     },
 });
