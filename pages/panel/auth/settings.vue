@@ -12,7 +12,7 @@ async function onEnable(id: string, credentials: Record<string, string>): Promis
 async function onToggle(id: string, value: boolean): Promise<void> {
   if (value) {
     const option = userStore.authProviders.find((p) => p.id === id);
-    await userStore.enableOption(id, JSON.stringify(option.credentials));
+    option.credentials && (await userStore.enableOption(id, JSON.stringify(option.credentials)));
   } else {
     await userStore.disableOption(id);
   }

@@ -1,40 +1,52 @@
 <script setup lang="ts">
 import useVuelidate from "@vuelidate/core";
-import { minLength, required } from "@vuelidate/validators";
+import { helpers, minLength, required } from "@vuelidate/validators";
 
 interface Props {
-  clientID: string;
-  serviceSecret: string;
+  enabled: boolean;
+  credentials: Record<string, string>;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  clientID: "",
-  clientSecret: "",
+  enabled: false,
+  credentials: () => ({
+    storeID: "",
+    secretKey: "",
+  }),
 });
 
 const state = reactive({
-  clientID: props.clientID,
-  clientSecret: props.clientSecret,
-  serviceSecret: props.serviceSecret,
+  storeID: props.credentials?.storeID ?? "",
+  secretKey: props.credentials?.secretKey ?? "",
 });
 
 interface Emits {
+  (e: "toggle", value: boolean): void;
   (e: "submit", value: typeof state): void;
 }
 
 const emits = defineEmits<Emits>();
 
-const toggle = ref(false);
+const toggle = ref(props.enabled);
+watch([toggle], ([value]) => {
+  emits("toggle", value);
+});
 
 const v$ = useVuelidate(
   {
-    clientID: { required, minLength: minLength(8) },
-    clientSecret: { required, minLength: minLength(71) },
+    storeID: {
+      required: helpers.withMessage("Обязательное поле", required),
+      minLength: helpers.withMessage((ctx) => `Минимальная длинна: ${ctx.$params.min}`, minLength(8)),
+    },
+    secretKey: {
+      required: helpers.withMessage("Обязательное поле", required),
+      minLength: helpers.withMessage((ctx) => `Минимальная длинна: ${ctx.$params.min}`, minLength(71)),
+    },
   },
   state
 );
 
-function submit(): void {
+function onSubmit(): void {
   v$.value.$touch();
   if (v$.value.$invalid) return;
 
@@ -46,7 +58,7 @@ function submit(): void {
   <div class="card">
     <div class="card__first-row">
       <ControlSwitch v-model="toggle" class="trs"></ControlSwitch>
-      <img src="assets/img/yookassa.svg" class="card__icon" alt="yookassa" />
+      <img src="/assets/img/yookassa.svg" class="card__icon" alt="yookassa" />
       <span class="title-large">YOOKASSA</span>
       <a
         class="card__info caption"
@@ -62,18 +74,18 @@ function submit(): void {
           <div class="card__credentials">
             <fieldset class="card__fields control">
               <div class="control__head">
-                <div class="control__label label-medium">ClientID</div>
-                <div v-if="v$.clientID.required.$invalid && v$.clientID.$dirty" class="control__error label-medium">
-                  Обязательное поле
+                <div class="control__label label-medium">StoreID</div>
+                <div v-if="v$.storeID.$error" class="control__error label-medium">
+                  {{ v$.storeID.$errors[0].$message }}
                 </div>
               </div>
               <ControlInput
-                v-model="v$.clientID.$model"
+                v-model="v$.storeID.$model"
                 name="clientID"
                 placeholder="51461222"
-                :error="v$.clientID.$error"
-                @enter="submit"
-                @blur="v$.clientID.$touch"
+                :error="v$.storeID.$error"
+                @enter="onSubmit"
+                @blur="v$.storeID.$touch"
               >
                 <template #left-icon>
                   <nuxt-icon name="key"></nuxt-icon>
@@ -82,21 +94,18 @@ function submit(): void {
             </fieldset>
             <fieldset class="card__fields control">
               <div class="control__head">
-                <div class="control__label label-medium">ClientSecret</div>
-                <div
-                  v-if="v$.clientSecret.required.$invalid && v$.clientSecret.$dirty"
-                  class="control__error label-medium"
-                >
-                  Обязательное поле
+                <div class="control__label label-medium">SecretKey</div>
+                <div v-if="v$.secretKey.$error" class="control__error label-medium">
+                  {{ v$.secretKey.$errors[0].$message }}
                 </div>
               </div>
               <ControlInput
-                v-model="v$.clientSecret.$model"
+                v-model="v$.secretKey.$model"
                 name="clientSecret"
                 placeholder="e622104de622104de622104dfbe5332c2bee622e622104d857973e9f5b3d5e7fd41e23f"
-                :error="v$.clientSecret.$error"
-                @enter="submit"
-                @blur="v$.clientSecret.$touch"
+                :error="v$.secretKey.$error"
+                @enter="onSubmit"
+                @blur="v$.secretKey.$touch"
               >
                 <template #left-icon>
                   <nuxt-icon name="key"></nuxt-icon>
@@ -104,7 +113,7 @@ function submit(): void {
               </ControlInput>
             </fieldset>
           </div>
-          <ControlButton class="card__save" @click="submit"> Сохранить опцию </ControlButton>
+          <ControlButton class="card__save" @click="onSubmit"> Сохранить опцию </ControlButton>
         </div>
       </div>
     </AnimationCollapse>

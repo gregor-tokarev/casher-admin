@@ -9,3 +9,15 @@ export class Order {
     products: CartProduct[];
     owner: User;
 }
+
+export class OrdersResponseDto {
+    count: number;
+    orders: Order[];
+}
+
+export class PaymentOption {
+    id: string;
+    name: string;
+    enabled: boolean;
+    credentials?: Record<string, string>;
+}

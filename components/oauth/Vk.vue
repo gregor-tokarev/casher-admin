@@ -17,8 +17,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const state = reactive({
-  clientID: props.credentials.clientID,
-  clientSecret: props.credentials.clientSecret,
+  storeID: props.credentials.storeID,
+  secretKey: props.credentials.secretKey,
   serviceSecret: props.credentials.serviceSecret,
 });
 
@@ -36,11 +36,11 @@ watch([toggle], ([value]) => {
 
 const v$ = useVuelidate(
   {
-    clientID: {
+    storeID: {
       required: helpers.withMessage("Обязательное поле", required),
       minLength: helpers.withMessage((ctx) => `Минимальная длинна ${ctx.$params.min}`, minLength(8)),
     },
-    clientSecret: {
+    secretKey: {
       required: helpers.withMessage("Обязательное поле", required),
       minLength: helpers.withMessage((ctx) => `Минимальная длинна ${ctx.$params.min}`, minLength(20)),
     },
@@ -77,17 +77,17 @@ function submit(): void {
             <fieldset class="card__fields control">
               <div class="control__head">
                 <div class="control__label label-medium">ClientID</div>
-                <div v-if="v$.clientID.$error" class="control__error label-medium">
-                  {{ v$.clientID.$errors[0].$message }}
+                <div v-if="v$.storeID.$error" class="control__error label-medium">
+                  {{ v$.storeID.$errors[0].$message }}
                 </div>
               </div>
               <ControlInput
-                v-model="v$.clientID.$model"
+                v-model="v$.storeID.$model"
                 name="clientID"
                 placeholder="51461222"
-                :error="v$.clientID.$error"
+                :error="v$.storeID.$error"
                 @enter="submit"
-                @blur="v$.clientID.$touch"
+                @blur="v$.storeID.$touch"
               >
                 <template #left-icon>
                   <nuxt-icon name="key"></nuxt-icon>
@@ -97,17 +97,17 @@ function submit(): void {
             <fieldset class="card__fields control">
               <div class="control__head">
                 <div class="control__label label-medium">ClientSecret</div>
-                <div v-if="v$.clientSecret.$error" class="control__error label-medium">
-                  {{ v$.clientSecret.$errors[0].$message }}
+                <div v-if="v$.secretKey.$error" class="control__error label-medium">
+                  {{ v$.secretKey.$errors[0].$message }}
                 </div>
               </div>
               <ControlInput
-                v-model="v$.clientSecret.$model"
+                v-model="v$.secretKey.$model"
                 name="clientSecret"
                 placeholder="e622104de622104de622104dfbe5332c2bee622e622104d857973e9f5b3d5e7fd41e23f"
-                :error="v$.clientSecret.$error"
+                :error="v$.secretKey.$error"
                 @enter="submit"
-                @blur="v$.clientSecret.$touch"
+                @blur="v$.secretKey.$touch"
               >
                 <template #left-icon>
                   <nuxt-icon name="key"></nuxt-icon>

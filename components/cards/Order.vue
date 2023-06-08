@@ -57,6 +57,7 @@ const title = computed(() =>
   color: var(--gray-400);
   background-color: var(--surface);
   padding: 0 5px;
+  min-width: 1015px;
 
   &--even {
     background-color: var(--gray-200);
