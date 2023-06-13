@@ -4,6 +4,7 @@ import { email, helpers, required } from "@vuelidate/validators";
 import { useRouter } from "#app";
 import { definePageMeta } from "#imports";
 import { useAuthStore } from "~/stores/auth";
+import { HttpMessage } from "~/models/message.model";
 
 definePageMeta({
   layout: "auth",
@@ -37,7 +38,13 @@ async function onSubmit() {
   if (v$.value.$error) return;
 
   try {
-    await authStore.login(v$.value.email.$model, v$.value.password.$model);
+    const res = await authStore.login(v$.value.email.$model, v$.value.password.$model);
+
+    if (res instanceof HttpMessage) {
+      await router.push("/auth/set_password");
+      return;
+    }
+
     await router.push("/panel/products");
   } catch (err) {
     serverError.value = true;

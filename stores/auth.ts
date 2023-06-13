@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { plainToInstance } from "class-transformer";
 import { Tokens } from "~/models/auth.model";
 import { AdminUser } from "~/models/admin-user.model";
+import { HttpMessage } from "~/models/message.model";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
@@ -19,12 +20,16 @@ export const useAuthStore = defineStore("auth", {
 
             return plainToInstance(Tokens, res.data);
         },
-        async login(email: string, password: string): Promise<Tokens> {
+        async login(email: string, password: string): Promise<Tokens | HttpMessage> {
             const { $getApi } = useNuxtApp();
-            const res = await $getApi().post<Tokens>("/auth/login", {
+            const res = await $getApi().post<Tokens | HttpMessage>("/auth/login", {
                 email,
                 password,
             });
+
+            if ("message" in res.data) {
+                return plainToInstance(HttpMessage, res.data);
+            }
 
             this.setTokens(plainToInstance(Tokens, res.data));
 
@@ -43,6 +48,12 @@ export const useAuthStore = defineStore("auth", {
             const { $getApi } = useNuxtApp();
             const res = await $getApi().post<Tokens>("/auth/refresh", { token: this.tokens.refreshToken });
             this.setTokens(res.data);
+
+            return res.data;
+        },
+        async setPassword(email: string, password: string): Promise<HttpMessage> {
+            const { $getApi } = useNuxtApp();
+            const res = await $getApi().patch<HttpMessage>(`/auth/set_password`, { password }, { params: { email } });
 
             return res.data;
         },

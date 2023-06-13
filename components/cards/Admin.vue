@@ -61,8 +61,8 @@ const permissions = computed(() => {
   return permissions;
 });
 
-watchEffect(() => {
-  emits("update:permissions", [props.admin.id, permissions.value]);
+watch([permissions], ([permissions]) => {
+  emits("update:permissions", [props.admin.id, permissions]);
 });
 </script>
 
