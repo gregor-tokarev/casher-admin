@@ -20,6 +20,14 @@ export const useAuthStore = defineStore("auth", {
 
             return plainToInstance(Tokens, res.data);
         },
+        async checkEmail(email: string): Promise<HttpMessage> {
+            const { $getApi } = useNuxtApp();
+            const res = await $getApi().post<HttpMessage>("/auth/check_email", {
+                email,
+            });
+
+            return res.data;
+        },
         async login(email: string, password: string): Promise<Tokens | HttpMessage> {
             const { $getApi } = useNuxtApp();
             const res = await $getApi().post<Tokens | HttpMessage>("/auth/login", {

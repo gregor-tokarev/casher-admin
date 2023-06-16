@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useVuelidate from "@vuelidate/core";
-import { email, helpers, required, sameAs } from "@vuelidate/validators";
+import { helpers, minLength, required, sameAs } from "@vuelidate/validators";
 import { useRoute, useRouter } from "#app";
 import { computed, definePageMeta } from "#imports";
 import { useAuthStore } from "~/stores/auth";
@@ -23,7 +23,10 @@ const v$ = useVuelidate(
       required: helpers.withMessage("Обязательное поле", required),
       sameAs: helpers.withMessage("Должен повторять пароль", sameAs(password)),
     },
-    password: { required: helpers.withMessage("Обязательное поле", required) },
+    password: {
+      required: helpers.withMessage("Обязательное поле", required),
+      minLength: helpers.withMessage((ctx) => `Минимальная длинна ${ctx.$params.min}`, minLength(8)),
+    },
   },
   formState
 );
@@ -57,7 +60,7 @@ async function onSubmit() {
   <div class="auth">
     <h1 class="auth__title headline-large">Установите пароль</h1>
     <p class="auth__text body-medium">
-      Вы устанавливаете пароль для {{ email }} если это не ваш email, то закройте вкладку и не переходите больше по
+      Вы устанавливаете пароль для {{ userEmail }} если это не ваш email, то закройте вкладку и не переходите больше по
       ссылке
     </p>
     <form class="auth__form auth-form">

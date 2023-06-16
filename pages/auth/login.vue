@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import useVuelidate from "@vuelidate/core";
-import { email, helpers, required } from "@vuelidate/validators";
-import { useRouter } from "#app";
+import { email, helpers, minLength, required } from "@vuelidate/validators";
+import { useRoute, useRouter } from "#app";
 import { definePageMeta } from "#imports";
 import { useAuthStore } from "~/stores/auth";
-import { HttpMessage } from "~/models/message.model";
 
 definePageMeta({
   layout: "auth",
 });
 
+const router = useRouter();
+const route = useRoute();
+const authStore = useAuthStore();
+
 const passwordVisible = ref(false);
 
 const formState = reactive({
-  email: "",
+  email: route.query.email ?? "",
   password: "",
 });
 
@@ -23,13 +26,13 @@ const v$ = useVuelidate(
       required: helpers.withMessage("Обязательное поле", required),
       email: helpers.withMessage("Невалидный email", email),
     },
-    password: { required: helpers.withMessage("Обязательное поле", required) },
+    password: {
+      required: helpers.withMessage("Обязательное поле", required),
+      minLength: helpers.withMessage((ctx) => `Минимальная длинна ${ctx.$params.min}`, minLength(8)),
+    },
   },
   formState
 );
-
-const router = useRouter();
-const authStore = useAuthStore();
 
 const serverError = ref(false);
 
@@ -38,13 +41,7 @@ async function onSubmit() {
   if (v$.value.$error) return;
 
   try {
-    const res = await authStore.login(v$.value.email.$model, v$.value.password.$model);
-
-    if (res instanceof HttpMessage) {
-      await router.push("/auth/set_password");
-      return;
-    }
-
+    await authStore.login(v$.value.email.$model, v$.value.password.$model);
     await router.push("/panel/products");
   } catch (err) {
     serverError.value = true;
